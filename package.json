@@ -1,0 +1,35 @@
+{
+  "name": "diplomski_rad_backend",
+  "version": "1.0.0",
+  "description": "Backend za MEVN stack aplikaciju",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JovanMihic99/DiplomskiRad.git"
+  },
+  "keywords": [
+    "Diplomski",
+    "MEVN",
+    "backend",
+    "Stripoteka",
+    "Stripovi"
+  ],
+  "author": "Jovan Mihic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JovanMihic99/DiplomskiRad/issues"
+  },
+  "homepage": "https://github.com/JovanMihic99/DiplomskiRad#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.4",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.2"
+  }
+}
