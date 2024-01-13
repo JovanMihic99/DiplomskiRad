@@ -1,17 +1,33 @@
 const express = require("express");
 const app = express();
-const dotenv = require("dotenv");
+require("dotenv").config();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
-const productRoutes = require("./api/routes/products");
-const orderRoutes = require("./api/routes/orders");
-const userRoutes = require("./api/routes/user");
+const productRoutes = require("./api/v1/routes/products");
+const orderRoutes = require("./api/v1/routes/orders");
+const userRoutes = require("./api/v1/routes/user");
 
-// Environment variables
-dotenv.config();
+// CORS
+app.use(cors());
 
+// // CORS
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Accept, Authorization"
+//   );
+//   if (req.method === "OPTIONS") {
+//     res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE,GET");
+//     return res.status(200).json({});
+//   }
+//   next();
+// });
+
+// MongoDB Database
 mongoose.connect(
   "mongodb+srv://jovanmihic99:" +
     process.env.MONGO_ATLAS_PW +
@@ -25,24 +41,10 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Accept, Authorization"
-  );
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE,GET");
-    return res.status(200).json({});
-  }
-  next();
-});
-
 // Routes
-app.use("/products", productRoutes);
-app.use("/orders", orderRoutes);
-app.use("/user", userRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/user", userRoutes);
 
 // Not found route
 app.use((req, res, next) => {
