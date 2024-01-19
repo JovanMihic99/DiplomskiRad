@@ -1,21 +1,28 @@
 const express = require("express");
 const router = express.Router();
-const checkAuth = require("../middleware/check-auth");
-const checkPermission = require("../middleware/check-permission");
+const authenticate = require("../middleware/authenticate");
+const authorize = require("../middleware/authorize");
 
 const OrdersController = require("../controllers/orders");
 
 router.get(
-  "/",
-  checkAuth,
-  checkPermission("admin"),
+  "/all",
+  authenticate,
+  authorize("admin"),
   OrdersController.orders_get_all
 );
 
-router.post("/", checkAuth, OrdersController.orders_create_order);
+router.post("/", authenticate, OrdersController.orders_create_order);
 
-router.get("/:orderId", checkAuth, OrdersController.orders_get_order);
+router.get("/", authenticate, OrdersController.orders_get_user_orders);
 
-router.delete("/:orderId", checkAuth, OrdersController.orders_delete_order);
+router.patch(
+  "/:orderId",
+  authenticate,
+  authorize("admin"),
+  OrdersController.orders_close_order
+);
+
+router.delete("/:orderId", authenticate, OrdersController.orders_delete_order);
 
 module.exports = router;

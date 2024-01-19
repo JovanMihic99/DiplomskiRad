@@ -3,13 +3,16 @@ const Address = require("./address");
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  // _id: mongoose.Schema.Types.ObjectId,
+  userId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
   products: [
     {
       productId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
-        unique: true,
         ref: "Product",
       },
       quantity: {
@@ -26,12 +29,12 @@ const orderSchema = new Schema({
     type: String,
     required: true,
   },
-  shippingAddressId: {
-    type: Address,
+  shippingAddress: {
+    type: String,
     required: true,
   },
   billingAddress: {
-    type: Address,
+    type: String,
     required: true,
   },
   orderDate: {
