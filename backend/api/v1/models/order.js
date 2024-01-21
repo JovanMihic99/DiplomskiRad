@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
-const Address = require("./address");
+// const Address = require("./address");
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
-  // _id: mongoose.Schema.Types.ObjectId,
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
