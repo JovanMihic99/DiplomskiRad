@@ -1,17 +1,15 @@
 <template>
   <h1>Login Page</h1>
   <v-card>
-    <v-form>
+    <v-form v-if="!isLoading" @submit.prevent="logIn()">
       <v-container>
         <v-row>
           <v-col cols="12" md="4" class="ma-auto">
             <v-text-field
               v-model="email"
               :rules="emailRules"
-              :counter="10"
               label="Email"
               required
-              hide-details
             ></v-text-field>
           </v-col>
         </v-row>
@@ -21,24 +19,43 @@
               type="password"
               v-model="password"
               :rules="passwordRules"
-              :counter="10"
               label="Password"
               required
-              hide-details
             ></v-text-field>
           </v-col>
         </v-row>
         <v-row>
-          <v-btn @click="logIn()" class="bg-blue ma-auto" text="Log in"></v-btn>
+          <v-btn
+            type="submt"
+            class="bg-blue ma-auto"
+            :loading="isLoading"
+            text="Log in"
+          ></v-btn>
         </v-row>
       </v-container>
     </v-form>
+    <div v-else class="d-flex justify-center">
+      <v-progress-circular
+        class="mt-3"
+        indeterminate
+        model-value="20"
+        :size="80"
+      ></v-progress-circular>
+    </div>
   </v-card>
 </template>
 <script>
+import { useUserStore } from "@/stores/user";
 export default {
+  setup() {
+    const userStore = useUserStore();
+    return {
+      userStore,
+    };
+  },
   data() {
     return {
+      errorMessage: "",
       email: null,
       emailRules: [
         (value) => {
@@ -53,11 +70,25 @@ export default {
           return "You must enter a password!";
         },
       ],
+      isLoading: false,
     };
   },
   methods: {
-    logIn() {
-      return true;
+    async logIn() {
+      if (!this.emailRules) {
+        return;
+      }
+      if (!this.passwordRules) {
+        return;
+      }
+      this.isLoading = true;
+
+      const res = await this.userStore.login(this.email, this.password);
+      // errorMessage = res.message;
+      alert(res);
+      this.$router.go(-1);
+
+      this.isLoading = false;
     },
   },
 };

@@ -97,6 +97,11 @@ exports.user_login = (req, res, next) => {
           return res.status(200).json({
             message: "Auth successful",
             token: token,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            cart: user.cart,
+            role: user.role,
           });
         }
         return res.status(401).json({

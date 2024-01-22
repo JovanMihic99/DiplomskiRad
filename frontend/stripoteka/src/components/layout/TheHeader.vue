@@ -4,8 +4,8 @@
       <v-list>
         <v-list-item
           prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-          title="Jovan Mihic"
-          subtitle="jovan@gmail.com"
+          :title="userStore.name"
+          :subtitle="userStore.email"
         ></v-list-item>
       </v-list>
 
@@ -114,12 +114,24 @@
   </nav>
 </template>
 <script>
+import { useUserStore } from "@/stores/user";
 export default {
+  setup() {
+    const userStore = useUserStore();
+    return { userStore };
+  },
   data() {
     return {
       sidebarIsOpen: false,
-      loggedIn: false,
+      // loggedIn: false,
     };
+  },
+
+  computed: {
+    loggedIn() {
+      if (this.userStore._id) return true;
+      else return false;
+    },
   },
   methods: {
     logout() {
