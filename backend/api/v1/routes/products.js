@@ -30,4 +30,10 @@ router.delete(
   ProductsController.products_delete_product
 );
 
+router.post(
+  "/products/edition",
+  authenticate,
+  authorize,
+  ProductsController.products_add_edition
+);
 module.exports = router;

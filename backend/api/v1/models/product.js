@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+// const Edition = require("./edition");
 const productSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
   edition: {
@@ -12,7 +12,7 @@ const productSchema = new Schema({
     required: true,
   },
   issue: {
-    type: Number,
+    type: String,
     required: true,
   },
   description: {
