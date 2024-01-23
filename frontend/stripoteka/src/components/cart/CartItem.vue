@@ -1,7 +1,7 @@
 <template>
   <v-list-item>
     <v-list-item-avatar>
-      <v-img :src="imageUrl"></v-img>
+      <v-img :src="imageUrl" height="200px" width="200px" cover></v-img>
     </v-list-item-avatar>
 
     <v-list-item-content>
