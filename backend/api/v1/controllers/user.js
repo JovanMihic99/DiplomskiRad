@@ -100,7 +100,7 @@ exports.user_login = (req, res, next) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            cart: user.cart,
+
             role: user.role,
           });
         }
@@ -179,7 +179,7 @@ exports.user_get_cart = (req, res, next) => {
       res.status(200).json({
         message: "Fetched cart for user " + user._id,
         count: products.length,
-        ...products,
+        items: [...products],
       });
     })
     .catch((err) => {

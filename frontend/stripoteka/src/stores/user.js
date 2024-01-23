@@ -8,7 +8,7 @@ export const useUserStore = defineStore("user", {
       _id: null,
       name: null,
       email: null,
-      cart: [],
+      // cart: [],
       role: null,
     };
   },
@@ -26,7 +26,7 @@ export const useUserStore = defineStore("user", {
         this._id = res.data._id;
         this.name = res.data.name;
         this.email = res.data.email;
-        this.cart = res.data.cart;
+        // this.cart = res.data.cart;
         this.role = res.data.role;
       } catch (error) {
         return error.message;

@@ -59,33 +59,42 @@ export default {
       email: null,
       emailRules: [
         (value) => {
-          if (value) return true;
+          if (value) {
+            this.invalid = false;
+            return true;
+          }
+          this.invalid = true;
           return "You must enter an email!";
         },
       ],
       password: null,
       passwordRules: [
         (value) => {
-          if (value) return true;
+          if (value) {
+            this.invalid = false;
+            return true;
+          }
+          this.invalid = true;
           return "You must enter a password!";
         },
       ],
       isLoading: false,
+      invalid: false,
     };
   },
   methods: {
     async logIn() {
-      if (!this.emailRules) {
+      console.log("invalid: " + this.invalid);
+      if (this.invalid) {
         return;
       }
-      if (!this.passwordRules) {
-        return;
-      }
+
       this.isLoading = true;
 
       const res = await this.userStore.login(this.email, this.password);
       // errorMessage = res.message;
-      alert(res);
+      // alert(res);
+      console.log(res);
       this.$router.go(-1);
 
       this.isLoading = false;
