@@ -61,27 +61,36 @@ export default {
       email: "",
       emailRules: [
         (value) => {
-          if (value) return true;
+          if (value) {
+            this.invalid = false;
+            return true;
+          }
+          this.invalid = true;
           return "You must enter an email!";
         },
       ],
       password: "",
       passwordRules: [
         (value) => {
-          if (value) return true;
+          if (value) {
+            this.invalid = false;
+            return true;
+          }
+          this.invalid = true;
           return "You must enter a password!";
         },
       ],
       isLoading: false,
+      invalid: false,
       error: false,
     };
   },
   methods: {
     async logIn() {
-      if (!this.email.length) {
+      if (!this.emailRules) {
         return;
       }
-      if (!this.password.length) {
+      if (!this.passwordRules) {
         return;
       }
       this.isLoading = true;

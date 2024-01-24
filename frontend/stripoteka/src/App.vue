@@ -8,6 +8,7 @@
         <router-view></router-view>
       </v-card>
     </v-main>
+    <the-footer></the-footer>
   </v-app>
 </template>
 

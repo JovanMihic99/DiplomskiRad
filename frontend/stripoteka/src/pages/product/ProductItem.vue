@@ -16,17 +16,23 @@
     <v-card-subtitle> {{ price }}rsd.</v-card-subtitle>
 
     <v-card-actions>
-      <v-btn color="green-darken-1" variant="elevated" rounded>
-        Dodaj u korpu
+      <v-btn
+        text="Dodaj u korpu"
+        color="green-darken-1"
+        @click="addToCart(_id)"
+        variant="elevated"
+        rounded
+      >
       </v-btn>
 
       <v-spacer></v-spacer>
 
-      <v-btn text="Detaljnije" rounded @click="productDetails(_id)"></v-btn>
+      <v-btn text="Detaljnije" @click="productDetails(_id)" rounded> </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script>
+import { useCartStore } from "@/stores/cart";
 export default {
   props: [
     "_id",
@@ -37,15 +43,21 @@ export default {
     "price",
     "imageUrl",
   ],
-  data() {
-    return {};
+  emits: ["addedToCart"],
+  // computed: {},
+  setup() {
+    const cartStore = useCartStore();
+    return {
+      cartStore,
+    };
   },
   methods: {
     productDetails(id) {
       return id;
     },
-    addToCart(id) {
-      return id;
+    addToCart(id, quantity = 1) {
+      this.cartStore.addToCart(id, quantity);
+      this.$emit("addedToCart", { productId: id });
     },
   },
 };
