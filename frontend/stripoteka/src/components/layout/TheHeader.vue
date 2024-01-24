@@ -1,6 +1,11 @@
 <template>
   <nav>
-    <v-navigation-drawer app v-model="sidebarIsOpen" location="right">
+    <v-navigation-drawer
+      v-if="isLoggedIn"
+      app
+      v-model="sidebarIsOpen"
+      location="right"
+    >
       <v-list>
         <v-list-item
           prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
@@ -100,7 +105,7 @@
       <v-spacer></v-spacer>
 
       <v-app-bar-nav-icon
-        v-if="loggedIn"
+        v-if="isLoggedIn"
         @click="sidebarIsOpen = !sidebarIsOpen"
       ></v-app-bar-nav-icon>
       <v-btn
@@ -123,12 +128,11 @@ export default {
   data() {
     return {
       sidebarIsOpen: false,
-      // loggedIn: false,
     };
   },
 
   computed: {
-    loggedIn() {
+    isLoggedIn() {
       if (this.userStore._id) return true;
       else return false;
     },

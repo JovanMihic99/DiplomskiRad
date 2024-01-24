@@ -9,6 +9,7 @@ import { createPinia } from "pinia";
 
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheSidebar from "./components/layout/TheSidebar.vue";
+import BaseDialog from "./components/UI/BaseDialog.vue";
 
 import DropdownButton from "./components/UI/DropdownButton.vue";
 
@@ -23,5 +24,6 @@ app.use(createPinia());
 app.component("the-header", TheHeader);
 app.component("the-sidebar", TheSidebar);
 app.component("dropdown-button", DropdownButton);
+app.component("base-dialog", BaseDialog);
 
 app.mount("#app");

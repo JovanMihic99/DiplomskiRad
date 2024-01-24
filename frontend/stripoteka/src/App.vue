@@ -4,7 +4,9 @@
 
     <!-- <the-sidebar></the-sidebar> -->
     <v-main>
-      <router-view></router-view>
+      <v-card class="py-5" elevation="3">
+        <router-view></router-view>
+      </v-card>
     </v-main>
   </v-app>
 </template>

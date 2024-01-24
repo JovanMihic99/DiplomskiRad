@@ -72,16 +72,16 @@ exports.user_login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .exec()
     .then((user) => {
-      console.log(user);
+      // console.log(user);
       if (!user) {
         return res.status(401).json({
-          message: "Auth failed",
+          message: "Authentication failed",
         });
       }
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (err) {
           return res.status(401).json({
-            message: "Auth failed",
+            message: "Authentication failed",
           });
         }
         if (result) {
@@ -95,7 +95,7 @@ exports.user_login = (req, res, next) => {
             }
           );
           return res.status(200).json({
-            message: "Auth successful",
+            message: "Authentication successful",
             token: token,
             _id: user._id,
             name: user.name,
@@ -105,7 +105,7 @@ exports.user_login = (req, res, next) => {
           });
         }
         return res.status(401).json({
-          message: "Auth failed",
+          message: "Authentication failed",
         });
       });
     })

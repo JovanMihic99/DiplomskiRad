@@ -22,6 +22,7 @@ export const useUserStore = defineStore("user", {
             password,
           }
         );
+
         this.token = res.data.token;
         this._id = res.data._id;
         this.name = res.data.name;
@@ -29,7 +30,9 @@ export const useUserStore = defineStore("user", {
         this.cart = res.data.cart;
         this.role = res.data.role;
       } catch (error) {
-        return error.message;
+        // Handle the error, e.g., log it or show a user-friendly message
+        console.log(error);
+        throw error.response.data.message; // rethrow the error to let the calling code handle it
       }
     },
   },
