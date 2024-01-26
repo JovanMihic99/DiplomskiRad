@@ -1,21 +1,33 @@
 <template>
   <div>
-    <h1 class="text-h3 text-center">Login</h1>
+    <h1 class="text-h3 text-center">Register</h1>
     <base-dialog v-if="error" title="Error" teleport="#app">
-      Authentification failed, please enter a valid email and password.
+      Signup failed, user already exists. Maybe change username or email?
     </base-dialog>
     <v-form
       ref="form"
       class="pa-3 mt-5"
       v-if="!isLoading"
-      @submit.prevent="logIn()"
+      @submit.prevent="register()"
     >
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
           <v-text-field
-            prepend-inner-icon="mdi-email"
+            :rules="nameRules"
+            prepend-inner-icon="mdi-tag-text"
+            type="text"
+            v-model="name"
+            label="Name"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="4" class="ma-auto">
+          <v-text-field
             :rules="emailRules"
-            v-model.trim.toLower="email"
+            prepend-inner-icon="mdi-email"
+            v-model="email"
             label="Email"
             required
           ></v-text-field>
@@ -24,8 +36,8 @@
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
           <v-text-field
-            prepend-inner-icon="mdi-key"
             :rules="passwordRules"
+            prepend-inner-icon="mdi-key"
             type="password"
             v-model="password"
             label="Password"
@@ -33,6 +45,19 @@
           ></v-text-field>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="12" md="4" class="ma-auto">
+          <v-text-field
+            :rules="confirmPassRules"
+            prepend-inner-icon="mdi-key-outline"
+            type="password"
+            v-model="confirmPassword"
+            label="Confrim Password"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
           <v-btn
@@ -45,13 +70,10 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
-          <v-btn
-            @click="this.$router.push('/register')"
-            prepend-icon="mdi-account-plus"
-            class="w-100"
-            variant="outlined"
-            text="Register"
-          ></v-btn>
+          <p>
+            Already have an account?
+            <router-link to="/login">Log in</router-link>
+          </p>
         </v-col>
       </v-row>
     </v-form>
@@ -71,6 +93,8 @@ import { useUserStore } from "@/stores/user";
 
 export default {
   setup() {
+    // const userStore = useUserStore();
+
     return {
       userStore: useUserStore(),
     };
@@ -80,6 +104,12 @@ export default {
     return {
       errorMessage: "",
       email: "",
+      name: "",
+      password: "",
+      confirmPassword: "",
+      nameRules: [
+        (v) => v.length >= 5 || "Name must be at least 5 charactes long!",
+      ],
       emailRules: [
         (v) => {
           const emailRegex =
@@ -92,19 +122,19 @@ export default {
           }
         },
       ],
-      password: "",
       passwordRules: [
-        (v) => {
-          v.length >= 5 || "Password must be at least 5 characters long!";
-        },
+        (v) => v.length >= 5 || "Password must be at least 5 characters long!",
+      ],
+      confirmPassRules: [
+        (v) => v.length >= 5 || "Password must be at least 5 characters long!",
+        (v) => v === this.password || "Passwords must match!",
       ],
       isLoading: false,
-      invalid: false,
       error: false,
     };
   },
   methods: {
-    async logIn() {
+    async register() {
       const validation = await this.$refs.form.validate();
       if (!validation.valid) return;
 
@@ -112,16 +142,14 @@ export default {
       this.isLoading = true;
 
       try {
-        await this.userStore.login(this.email, this.password);
-        this.$router.go(-1); //return to previous page
+        await this.userStore.signup(this.email, this.password, this.name);
+        this.$router.push("/login");
       } catch (error) {
         this.error = true;
-        console.log(error);
+        console.log("register error: ", error);
       }
       this.isLoading = false;
     },
-
-    // errorMessage = res.message;
   },
 };
 </script>

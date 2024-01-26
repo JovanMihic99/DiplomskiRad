@@ -1,12 +1,5 @@
 <template>
   <div class="text-center">
-    <!-- <v-btn
-      color="primary"
-      @click="dialog = true"
-    >
-      Open Dialog
-    </v-btn> -->
-
     <v-dialog v-model="dialog" width="auto">
       <v-card :title="title">
         <v-card-text>
@@ -26,6 +19,10 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    onClose: {
+      type: Function,
+      required: false,
     },
   },
   mounted() {

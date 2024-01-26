@@ -35,6 +35,18 @@ export const useUserStore = defineStore("user", {
         throw error.response.data.message; // rethrow the error to let the calling code handle it
       }
     },
+    async signup(email, password, name) {
+      try {
+        await axios.post("http://localhost:3500/api/v1/user/signup", {
+          email,
+          password,
+          name,
+        });
+      } catch (error) {
+        console.log(error);
+        throw error.response.data.message;
+      }
+    },
   },
   getters: {},
 });
