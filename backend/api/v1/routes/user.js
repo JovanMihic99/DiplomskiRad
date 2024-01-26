@@ -14,4 +14,6 @@ router.get("/cart", authenticate, UserController.user_get_cart);
 
 router.post("/cart", authenticate, UserController.user_add_to_cart);
 
+router.delete("/cart/:id", authenticate, UserController.user_remove_from_cart);
+
 module.exports = router;

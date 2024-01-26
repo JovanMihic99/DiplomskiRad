@@ -189,3 +189,29 @@ exports.user_get_cart = (req, res, next) => {
       });
     });
 };
+
+exports.user_remove_from_cart = (req, res, next) => {
+  const id = req.params.id;
+  let updatedCart = [...req.user.cart];
+
+  updatedCart = updatedCart.filter((item) => {
+    return item.productId.toString() !== id;
+  });
+  req.user.cart = [...updatedCart];
+  req.user
+    .save()
+    .then((result) => {
+      console.log(req.user.cart);
+      res.status(200).json({
+        message: "Deleted item " + id + " from cart of user " + req.user._id,
+        count: req.user.cart.length,
+        items: [...req.user.cart],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};

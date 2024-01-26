@@ -1,7 +1,14 @@
 <template>
   <div>
     <h1 class="text-center text-h3 mb-8">The Cart</h1>
-    <v-row class="px-15 my-10">
+    <div v-if="!cartStore.items.length">
+      <h2 class="text-center">Your cart is empty!</h2>
+      <p class="text-center mt-3">
+        Visit our <router-link to="/products">Products</router-link> page to add
+        some items to your cart!
+      </p>
+    </div>
+    <v-row v-else class="px-15 my-10">
       <v-col md="6" cols="12">
         <p class="text-h6 font-weight-bold">
           Ukupna cena:
@@ -13,15 +20,18 @@
           color="green"
           prependIcon="mdi-cart"
           @click="$router.push('/checkout')"
-          >Checkout</v-btn
         >
+          Checkout
+        </v-btn>
       </v-col>
     </v-row>
+
     <v-card
       class="ma-3 px-7 py-2"
       elevation="3"
       v-for="item in cartStore.items"
       :key="item._id"
+      color="blue-darken-3"
     >
       <cart-item
         class=""
@@ -29,6 +39,7 @@
         imageUrl="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
         :price="item.price"
         :quantity="item.quantity"
+        :_id="item._id"
       ></cart-item>
     </v-card>
     <!-- <v-data-table :items="cartStore.items"></v-data-table> -->
@@ -40,8 +51,9 @@ import CartItem from "@/components/cart/CartItem.vue";
 export default {
   components: { CartItem },
   setup() {
-    // const cartStore = useCartStore();
-    return { cartStore: useCartStore() };
+    const cartStore = useCartStore();
+
+    return { cartStore };
   },
   computed: {
     title() {
@@ -49,7 +61,7 @@ export default {
     },
   },
   async mounted() {
-    await this.cartStore.fetchCart();
+    await this.cartStore.getCart();
   },
 };
 </script>

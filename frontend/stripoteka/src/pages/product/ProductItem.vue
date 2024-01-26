@@ -1,13 +1,8 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="344"
-    @click="productDetails(_id)"
-    variant="tonal"
-  >
+  <v-card class="mx-auto" max-width="344" @click="productDetails(_id)">
     <v-img
       src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-      height="200px"
+      height="10rem"
       cover
     ></v-img>
 
@@ -20,7 +15,6 @@
         text="Dodaj u korpu"
         color="green-darken-1"
         @click="addToCart(_id)"
-        variant="elevated"
         rounded
       >
       </v-btn>

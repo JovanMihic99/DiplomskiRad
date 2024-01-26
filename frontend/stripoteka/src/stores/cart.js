@@ -27,11 +27,14 @@ export const useCartStore = defineStore("cart", {
           }
         );
         console.log(res.data);
+        console.log(this.items);
+
+        await this.getCart();
       } catch (error) {
         return error.message;
       }
     },
-    async fetchCart() {
+    async getCart() {
       const userStore = useUserStore();
       const headers = {
         Authorization: "Bearer " + userStore.token,
@@ -42,6 +45,30 @@ export const useCartStore = defineStore("cart", {
         });
 
         this.items = res.data.items;
+      } catch (error) {
+        return error.message;
+      }
+    },
+    async removeFromCart(id) {
+      const userStore = useUserStore();
+      const headers = {
+        Authorization: "Bearer " + userStore.token,
+      };
+      // remove item from pinia store
+      let updatedItems = [...this.items];
+      updatedItems = updatedItems.filter((item) => {
+        console.log(item);
+        return item._id.toString() !== id;
+      });
+      this.items = [...updatedItems];
+
+      try {
+        // remove item from server
+        await axios.delete("http://localhost:3500/api/v1/user/cart/" + id, {
+          headers,
+        });
+
+        // this.items = res.data.items;
       } catch (error) {
         return error.message;
       }

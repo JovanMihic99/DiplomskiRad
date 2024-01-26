@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import HomePage from "./pages/HomePage.vue";
+// import HomePage from "./pages/HomePage.vue";
 import CartPage from "./pages/cart/CartPage.vue";
 import AccountPage from "./pages/user/AccountPage.vue";
 import LoginPage from "./pages/user/LoginPage.vue";
@@ -11,7 +11,7 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      component: HomePage,
+      component: ProductList,
     },
     {
       path: "/cart",
