@@ -40,12 +40,20 @@ export const useCartStore = defineStore("cart", {
         const res = await axios.get("http://localhost:3500/api/v1/user/cart", {
           headers,
         });
-        console.log(res.data.items);
+
         this.items = res.data.items;
       } catch (error) {
         return error.message;
       }
     },
   },
-  getters: {},
+  getters: {
+    totalPrice: (state) => {
+      let total = state.items.reduce((sum, item) => {
+        return sum + item.price * item.quantity;
+      }, 0);
+
+      return total;
+    },
+  },
 });
