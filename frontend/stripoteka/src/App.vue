@@ -1,5 +1,5 @@
 <template>
-  <v-app theme="dark">
+  <v-app theme="dark" class="app">
     <the-header></the-header>
     <v-main>
       <v-container>
@@ -25,3 +25,13 @@ export default {
   }),
 };
 </script>
+
+<style>
+/* .app {
+  background: linear-gradient(
+    to bottom,
+    rgb(248, 17, 17) 0%,
+    rgb(240, 255, 26) 100%
+  );
+} */
+</style>

@@ -47,12 +47,11 @@
 </template>
 <script>
 import { useCartStore } from "@/stores/cart";
-import CartItem from "@/components/cart/CartItem.vue";
+import CartItem from "./CartItem.vue";
 export default {
   components: { CartItem },
   setup() {
     const cartStore = useCartStore();
-
     return { cartStore };
   },
   computed: {

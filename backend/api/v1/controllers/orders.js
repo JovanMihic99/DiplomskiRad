@@ -21,7 +21,7 @@ exports.orders_create_order = (req, res, next) => {
     });
   } else {
     try {
-      console.log("my products: ", products);
+      // console.log("my products: ", products);
       const order = new Order({
         userId,
         products,
@@ -32,11 +32,10 @@ exports.orders_create_order = (req, res, next) => {
       });
       order.save();
       User.findById(userId).then((user) => {
-        user.cart = [];
+        user.cart = []; //empty the cart upon successfull order
         user.save();
       });
-      // User.update({ _id: userId }, { $set: { cart: [] } }); //empty the cart upon successfull order
-      console.log("My cart: ", req.user.cart);
+      // console.log("My cart: ", req.user.cart);
       res.status(201).json({
         message: "Created order " + order._id,
         order: order,
