@@ -4,7 +4,7 @@
     <v-main>
       <v-container>
         <v-card class="py-5" elevation="3">
-          <v-scroll-y-transition hide-on-leave="true">
+          <v-scroll-y-transition :hide-on-leave="true">
             <router-view></router-view>
           </v-scroll-y-transition>
         </v-card>

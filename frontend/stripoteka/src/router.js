@@ -10,6 +10,7 @@ import SignupPage from "./pages/user/SignupPage.vue";
 import CheckoutPage from "./pages/checkout/CheckoutPage.vue";
 import AddProductPage from "./pages/product/AddProductPage.vue";
 import OrdersList from "./pages/user/OrdersList.vue";
+import ProductDetailsPage from "./pages/product/ProductDetailsPage.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -52,6 +53,10 @@ const router = createRouter({
     {
       path: "/products",
       component: ProductList,
+    },
+    {
+      path: "/products/:id",
+      component: ProductDetailsPage,
     },
     {
       path: "/register",

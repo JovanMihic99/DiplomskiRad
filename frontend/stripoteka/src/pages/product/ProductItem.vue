@@ -1,8 +1,13 @@
 <template>
   <v-card class="mx-auto" max-width="344" @click="productDetails(_id)">
     <v-img
-      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+      :src="
+        'https://picsum.photos/id/' +
+        Math.floor(Math.random() * 250) +
+        '/200/300'
+      "
       height="10rem"
+      fill-height
       cover
     ></v-img>
 
@@ -47,7 +52,7 @@ export default {
   },
   methods: {
     productDetails(id) {
-      return id;
+      this.$router.push("/products/" + id);
     },
     addToCart(id, quantity = 1) {
       this.cartStore.addToCart(id, quantity);

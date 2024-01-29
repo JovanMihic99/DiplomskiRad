@@ -73,6 +73,23 @@ export const useCartStore = defineStore("cart", {
         return error.message;
       }
     },
+    async editItem(productId, quantity) {
+      const userStore = useUserStore();
+      const headers = {
+        Authorization: "Bearer " + userStore.token,
+      };
+      const reqBody = { productId, quantity };
+      try {
+        const res = await axios.patch(
+          "http://localhost:3500/api/v1/user/cart",
+          reqBody,
+          { headers }
+        );
+        this.items = res.body.data.items;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   getters: {
     totalPrice: (state) => {

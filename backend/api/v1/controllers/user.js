@@ -215,3 +215,51 @@ exports.user_remove_from_cart = (req, res, next) => {
       });
     });
 };
+
+exports.user_edit_cart_item = (req, res, next) => {
+  let updatedCart = [...req.user.cart];
+
+  const productId = req.body.id;
+  const quantity = req.body.quantity;
+  const cartItemIndex = updatedCart.findIndex((item) => {
+    return item.productId.toString() !== productId;
+  });
+  console.log(cartItemIndex);
+  updatedCart[cartItemIndex].quantity = quantity;
+  req.user.cart = [...updatedCart];
+  req.user
+    .save()
+    .then(() => {
+      console.log(req.user.cart);
+      res.status(200).json({
+        message:
+          "Updated item " + productId + " from cart of user " + req.user._id,
+        count: req.user.cart.length,
+        items: [...req.user.cart],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+
+  // req.user.cart = [...updatedCart];
+  // req.user
+  //   .save()
+  //   .then((result) => {
+  //     console.log(req.user.cart);
+  //     res.status(200).json({
+  //       message: "Deleted item " + id + " from cart of user " + req.user._id,
+  //       count: req.user.cart.length,
+  //       items: [...req.user.cart],
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.status(500).json({
+  //       error: err,
+  //     });
+  //   });
+};

@@ -1,8 +1,5 @@
 <template>
   <v-row class="ma-auto cart-item-row">
-    <v-col md="2" sm="4" cols="12" class="cart-item-image-col">
-      <!-- <v-img :src="imageUrl" max-height="100%" cover></v-img> -->
-    </v-col>
     <v-col md="4" sm="4" cols="12" class="text-h6 my-auto">{{ title }} </v-col>
     <v-col md="2" sm="3" class="my-auto">
       <span class="text-h6">{{ price * quantity }}rsd.</span>
@@ -21,9 +18,17 @@
       <v-btn class="mr-1" icon @click="removeFromCart(_id)" text="Delete">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
-      <v-btn icon @click="editMode = !editMode">
-        <v-icon>mdi-pencil</v-icon>
+
+      <v-btn :isLoading="true" icon @click="editMode = !editMode">
+        <v-icon v-if="!editMode">mdi-pencil</v-icon>
+        <v-icon v-else>mdi-close</v-icon>
       </v-btn>
+      <v-btn v-if="editMode" icon @click="saveEditCart(_id, qty)">
+        <v-icon>mdi-check</v-icon>
+      </v-btn>
+      <!-- <v-btn v-else icon @click="editMode = !editMode">
+        <v-icon>mdi-close</v-icon>
+      </v-btn> -->
     </v-col>
   </v-row>
   <v-row :align="'center'"> </v-row>
@@ -33,6 +38,7 @@
 import { useCartStore } from "@/stores/cart";
 export default {
   name: "CartItem",
+  emits: ["cartChanged"],
   props: {
     title: String,
     imageUrl: String,
@@ -56,6 +62,11 @@ export default {
   methods: {
     async removeFromCart(id) {
       await this.cartStore.removeFromCart(id);
+    },
+    async saveEditCart(id, quantity) {
+      await this.cartStore.editItem(id, quantity);
+      this.editMode = false;
+      this.$emit("cartChanged");
     },
   },
 };

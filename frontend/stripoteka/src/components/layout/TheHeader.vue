@@ -57,13 +57,11 @@
       </v-app-bar-title>
       <dropdown-button
         :items="[
-          { title: 'kurac', to: '/kurac' },
-          { title: 'palac', to: '/palac' },
+          { title: 'cart', to: '/user/cart' },
+          { title: 'orders', to: '/user/orders' },
         ]"
-        >Stripovi</dropdown-button
-      >
-
-      <v-spacer></v-spacer>
+        >Stripovi
+      </dropdown-button>
 
       <v-app-bar-nav-icon
         v-if="isLoggedIn"

@@ -41,6 +41,24 @@ export const useOrdersStore = defineStore("orders", {
             headers,
           }
         );
+
+        console.log(res.data);
+        console.log(this.orders);
+      } catch (error) {
+        return error.message;
+      }
+    },
+    async fetchOrders() {
+      const userStore = useUserStore();
+      const headers = {
+        Authorization: "Bearer " + userStore.token,
+      };
+
+      try {
+        const res = await axios.get("http://localhost:3500/api/v1/orders/", {
+          headers,
+        });
+        this.orders = res.data.orders;
         console.log(res.data);
         console.log(this.orders);
       } catch (error) {

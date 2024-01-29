@@ -34,12 +34,12 @@
       color="blue-darken-3"
     >
       <cart-item
-        class=""
         :title="item.edition + ' ' + item.title + ' (#' + item.issue + ')'"
         imageUrl="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
         :price="item.price"
         :quantity="item.quantity"
         :_id="item._id"
+        @cartChanged="refreshCart"
       ></cart-item>
     </v-card>
     <!-- <v-data-table :items="cartStore.items"></v-data-table> -->
@@ -59,8 +59,13 @@ export default {
       return this.productsStore();
     },
   },
+  methods: {
+    async refreshCart() {
+      await this.cartStore.getCart();
+    },
+  },
   async mounted() {
-    await this.cartStore.getCart();
+    this.refreshCart();
   },
 };
 </script>
