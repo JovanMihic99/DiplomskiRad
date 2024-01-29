@@ -10,7 +10,12 @@ export const useOrdersStore = defineStore("orders", {
     };
   },
   actions: {
-    async createOrder(firstName, lastName, shippingAddress, billingAddress) {
+    async createOrder(
+      firstName,
+      lastName,
+      shippingAddress,
+      billingAddress = shippingAddress
+    ) {
       const userStore = useUserStore();
       const cartStore = useCartStore();
       const headers = {

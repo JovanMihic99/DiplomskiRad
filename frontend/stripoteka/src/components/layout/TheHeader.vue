@@ -24,13 +24,13 @@
           value="homepage"
         ></v-list-item>
         <v-list-item
-          @click="$router.push('/cart')"
+          @click="$router.push('/user/cart')"
           prepend-icon="mdi-cart"
           title="My Cart"
           value="cart"
         ></v-list-item>
         <v-list-item
-          @click="$router.push('/account')"
+          @click="$router.push('/user/account')"
           prepend-icon="mdi-account-circle"
           title="My Account"
           value="account"
@@ -43,7 +43,7 @@
         ></v-list-item>
         <v-spacer></v-spacer>
         <v-list-item
-          @click="logout()"
+          @click="logout"
           class="btn-logout"
           prepend-icon="mdi-logout"
           title="Log Out"
@@ -100,7 +100,9 @@ export default {
     },
   },
   methods: {
-    logout() {
+    async logout() {
+      await this.userStore.logout();
+      this.$router.push("/");
       return true;
     },
   },

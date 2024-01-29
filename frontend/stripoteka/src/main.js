@@ -6,9 +6,9 @@ import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
 
 import { createPinia } from "pinia";
+import { useUserStore } from "./stores/user";
 
 import TheHeader from "./components/layout/TheHeader.vue";
-import TheSidebar from "./components/layout/TheSidebar.vue";
 import BaseDialog from "./components/UI/BaseDialog.vue";
 import TheFooter from "./components/layout/TheFooter.vue";
 
@@ -22,8 +22,15 @@ app.use(router);
 app.use(vuetify);
 app.use(createPinia());
 
+//Initialize login state from local storage
+const userStore = useUserStore();
+try {
+  userStore.initializeFromStorage();
+} catch (error) {
+  console.log(error);
+}
+
 app.component("the-header", TheHeader);
-app.component("the-sidebar", TheSidebar);
 app.component("the-footer", TheFooter);
 
 app.component("dropdown-button", DropdownButton);

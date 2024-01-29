@@ -42,7 +42,8 @@
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
           <v-text-field
-            ref="billingAddress"
+            v-if="!sameAddress"
+            ref="billingAddresss"
             :rules="billingAddressRules"
             :disabled="sameAddress"
             prepend-inner-icon="mdi-cash-multiple"
@@ -52,7 +53,6 @@
             required
           ></v-text-field>
           <v-checkbox
-            @change="toggleBilling"
             label="Use shipping addres as billing address"
             checked
             v-model="sameAddress"
@@ -117,21 +117,32 @@ export default {
     };
   },
   methods: {
-    toggleBilling() {
-      if (this.sameAddress) {
-        return true;
-      }
-    },
     async sendOrder() {
       const validation = await this.$refs.form.validate();
+      console.log(validation);
       if (!validation.valid) return;
 
-      await this.ordersStore.createOrder(
-        this.firstName,
-        this.lastName,
-        this.shippingAddress,
-        this.billingAddress
-      );
+      try {
+        if (!this.sameAddress) {
+          await this.ordersStore.createOrder(
+            this.firstName,
+            this.lastName,
+            this.shippingAddress, //send both addresses
+            this.billingAddress
+          );
+        } else {
+          await this.ordersStore.createOrder(
+            this.firstName,
+            this.lastName,
+            this.shippingAddress, //send shipping address twice
+            this.shippingAddress
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      this.$router.push("/user/orders");
     },
   },
 };

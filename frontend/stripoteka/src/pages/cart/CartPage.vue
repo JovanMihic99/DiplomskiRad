@@ -19,7 +19,7 @@
         <v-btn
           color="green"
           prependIcon="mdi-cart"
-          @click="$router.push('/checkout')"
+          @click="$router.push('/user/checkout')"
         >
           Checkout
         </v-btn>

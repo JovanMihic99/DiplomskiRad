@@ -13,7 +13,7 @@ const userRoutes = require("./api/v1/routes/user");
 // CORS
 app.use(cors());
 
-// // CORS
+// CORS
 // app.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header(
