@@ -18,4 +18,16 @@ router.delete("/cart/:id", authenticate, UserController.user_remove_from_cart);
 
 router.patch("/cart", authenticate, UserController.user_edit_cart_item);
 
+router.get(
+  "/checkout-info",
+  authenticate,
+  UserController.user_get_checkout_info
+);
+
+router.post(
+  "/checkout-info",
+  authenticate,
+  UserController.user_save_checkout_info
+);
+
 module.exports = router;

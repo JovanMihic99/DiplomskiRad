@@ -13,7 +13,7 @@
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
           <v-text-field
-            prepend-inner-icon="mdi-email"
+            prepend-inner-icon="mdi-email-outline"
             :rules="emailRules"
             v-model.trim.toLower="email"
             label="Email"
@@ -24,7 +24,7 @@
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
           <v-text-field
-            prepend-inner-icon="mdi-key"
+            prepend-inner-icon="mdi-lock-outline"
             :rules="passwordRules"
             type="password"
             v-model="password"

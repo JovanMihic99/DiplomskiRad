@@ -12,7 +12,7 @@
         hide-details
         single-line
         type="number"
-        label="quantity"
+        label="Količina"
     /></v-col>
     <v-col md="2" cols="12" class="my-auto">
       <v-btn class="mr-1" icon @click="removeFromCart(_id)" text="Delete">

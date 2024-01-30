@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 // const Address = require("./address");
 const Schema = mongoose.Schema;
-
+const addressSchema = mongoose.Schema({
+  city: { type: String, required: true },
+  street: { type: String, required: true },
+  houseNumber: { type: String, required: true },
+  postalCode: { type: String, required: true },
+});
 const orderSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
@@ -29,12 +34,12 @@ const orderSchema = new Schema({
     required: true,
   },
   shippingAddress: {
-    type: String,
-    required: true,
+    type: addressSchema,
+    // required: true,
   },
   billingAddress: {
-    type: String,
-    required: true,
+    type: addressSchema,
+    // required: true,
   },
   orderDate: {
     type: Date,

@@ -1,6 +1,28 @@
 const mongoose = require("mongoose");
-const Product = require("./product");
+
 const Schema = mongoose.Schema;
+
+const addressSchema = mongoose.Schema({
+  city: { type: String },
+  street: { type: String },
+  houseNumber: { type: String },
+  postalCode: { type: String },
+});
+
+const checkoutInfoSchema = mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  phoneNumber: { type: String, required: true },
+  shippingAddress: {
+    type: addressSchema,
+    required: true,
+  },
+  billingAddress: {
+    type: addressSchema,
+    required: true,
+  },
+});
+
 const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   email: {
@@ -33,6 +55,10 @@ const userSchema = mongoose.Schema({
       quantity: { type: Number, required: true },
     },
   ],
+  checkoutInfo: {
+    type: checkoutInfoSchema,
+    // required: false,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

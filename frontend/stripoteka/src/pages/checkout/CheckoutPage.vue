@@ -1,65 +1,184 @@
 <template>
   <div>
-    <h1 class="text-h3 text-center mb-5">Checkout</h1>
+    <h1 class="text-h3 text-center mb-5">Porudžbina</h1>
 
-    <v-form @submit.prevent="sendOrder" ref="form">
-      <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+    <v-form @submit.prevent="sendOrder" ref="form" class="mx-auto">
+      <v-row class="ma-auto">
+        <v-col cols="12" md="4" class="mx-auto">
           <v-text-field
             :rules="firstNameRules"
             prepend-inner-icon="mdi-form-textbox"
             type="text"
             v-model="firstName"
-            label="First Name"
+            label="Ime"
             required
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+      <v-row class="ma-auto">
+        <v-col cols="12" md="4" class="mx-auto">
           <v-text-field
             :rules="lastNameRules"
             prepend-inner-icon="mdi-form-textbox"
             type="text"
             v-model="lastName"
-            label="Last Name"
+            label="Prezime"
             required
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+      <v-row class="ma-auto">
+        <v-col cols="12" md="4" class="mx-auto">
           <v-text-field
+            :rules="phoneNumberRules"
+            prepend-inner-icon="mdi-phone"
+            type="text"
+            v-model="phoneNumber"
+            label="Kontakt telefon"
+            hint="npr. +381 61555666"
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <div>
+        <p class="text-center mx-auto">Adresa isporuke</p>
+        <v-row class="ma-auto">
+          <v-col cols="12" md="4" class="mx-auto">
+            <!-- <v-text-field
             :rules="shippingAddressRules"
             prepend-inner-icon="mdi-home-city"
             type="text"
             v-model="shippingAddress"
-            label="Shipping Address"
+            label="Adresa isporuke"
             required
-          ></v-text-field>
-        </v-col>
-      </v-row>
+          ></v-text-field> -->
+            <v-text-field
+              :rules="streetRules"
+              prepend-inner-icon="mdi-home-city"
+              type="text"
+              v-model="shippingAddress.street"
+              label="Ulica"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="ma-auto">
+          <v-col cols="12" md="4" class="mx-auto">
+            <v-text-field
+              :rules="houseNumberRules"
+              prepend-inner-icon="mdi-home-city"
+              type="number"
+              v-model="shippingAddress.houseNumber"
+              label="Broj kuce"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="ma-auto">
+          <v-col cols="12" md="4" class="mx-auto">
+            <v-text-field
+              :rules="cityRules"
+              prepend-inner-icon="mdi-home-city"
+              type="text"
+              v-model="shippingAddress.city"
+              label="Grad"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="ma-auto">
+          <v-col cols="12" md="4" class="mx-auto">
+            <v-text-field
+              :rules="postalCodeRules"
+              prepend-inner-icon="mdi-home-city"
+              type="text"
+              v-model="shippingAddress.postalCode"
+              label="Poštanski broj"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </div>
+
+      <div v-if="!sameAddress">
+        <p class="text-center mx-auto">Adresa naplate</p>
+
+        <v-row class="ma-auto">
+          <v-col cols="12" md="4" class="mx-auto">
+            <!-- <v-text-field
+            :rules="shippingAddressRules"
+            prepend-inner-icon="mdi-home-city"
+            type="text"
+            v-model="shippingAddress"
+            label="Adresa isporuke"
+            required
+          ></v-text-field> -->
+            <v-text-field
+              :rules="streetRules"
+              prepend-inner-icon="mdi-home-city"
+              type="text"
+              v-model="shippingAddress.street"
+              label="Ulica"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="ma-auto">
+          <v-col cols="12" md="4" class="mx-auto">
+            <v-text-field
+              :rules="houseNumberRules"
+              prepend-inner-icon="mdi-home-city"
+              type="number"
+              v-model="shippingAddress.houseNumber"
+              label="Broj kuce"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="ma-auto">
+          <v-col cols="12" md="4" class="mx-auto">
+            <v-text-field
+              :rules="cityRules"
+              prepend-inner-icon="mdi-home-city"
+              type="text"
+              v-model="shippingAddress.city"
+              label="Grad"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="ma-auto">
+          <v-col cols="12" md="4" class="mx-auto">
+            <v-text-field
+              :rules="postalCodeRules"
+              prepend-inner-icon="mdi-home-city"
+              type="text"
+              v-model="shippingAddress.postalCode"
+              label="Poštanski broj"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </div>
+
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
-          <v-text-field
-            v-if="!sameAddress"
-            ref="billingAddresss"
-            :rules="billingAddressRules"
-            :disabled="sameAddress"
-            prepend-inner-icon="mdi-cash-multiple"
-            type="text"
-            v-model="billingAddress"
-            label="Billing Address"
-            required
-          ></v-text-field>
           <v-checkbox
-            label="Use shipping addres as billing address"
+            label="Koristi istu adresu za isporuku i naplatu"
             checked
             v-model="sameAddress"
           ></v-checkbox>
         </v-col>
       </v-row>
-
+      <v-row>
+        <v-col cols="12" md="4" class="ma-auto">
+          <v-checkbox
+            label="Sacuvaj podatke"
+            checked
+            v-model="saveCheckoutInfo"
+          ></v-checkbox>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12" md="8" class="ma-auto">
           <v-list>
@@ -86,33 +205,78 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 import { useCartStore } from "@/stores/cart";
 import { useOrdersStore } from "@/stores/orders";
+import { useUserStore } from "@/stores/user";
 export default {
   setup() {
     const cartStore = useCartStore();
     const ordersStore = useOrdersStore();
 
-    return { cartStore, ordersStore };
+    const userStore = useUserStore();
+
+    return { cartStore, ordersStore, userStore };
   },
   async mounted() {
     await this.cartStore.getCart();
+    try {
+      // await this.userStore.initializeFromStorage();
+      this.userStore.fetchCheckoutInfo();
+      const checkoutInfo = this.userStore.checkoutInfo;
+      console.log(checkoutInfo);
+      this.firstName = checkoutInfo.firstName;
+      this.lastName = checkoutInfo.lastName;
+      this.phoneNumber = checkoutInfo.phoneNumber;
+      this.shippingAddress = checkoutInfo.shippingAddress;
+      this.billingAddress = checkoutInfo.billingAddress;
+
+      Address;
+    } catch (error) {
+      console.log(error);
+    }
   },
   data() {
     return {
+      saveCheckoutInfo: false,
       firstName: "",
       lastName: "",
-      shippingAddress: "",
-      billingAddress: "",
+      shippingAddress: {
+        city: "",
+        street: "",
+        houseNumber: "",
+        postalCode: "",
+      },
+      billingAddress: {
+        city: "",
+        street: "",
+        houseNumber: "",
+        postalCode: "",
+      },
       sameAddress: true,
-      firstNameRules: [(v) => v.length > 0 || "First name must not be empty!"],
-      lastNameRules: [(v) => v.length > 0 || "Last name must not be empty!"],
+      phoneNumber: "",
+      firstNameRules: [(v) => v.length > 0 || "Ime je obavezno!"],
+      lastNameRules: [(v) => v.length > 0 || "Prezime je obavezno!"],
       shippingAddressRules: [
-        (v) => v.length > 0 || "Address must not be empty",
+        (v) => v.length > 0 || "Adresa isporuke je obavezna",
       ],
       billingAddressRules: [
-        (v) => v.length > 0 || "Billing ddress must not be empty",
+        (v) => v.length > 0 || "Adresa naplate je obavezna",
         // Doraditi ovo!!!!!!
+      ],
+      phoneNumberRules: [
+        (v) => {
+          const phoneNumberRegex =
+            // eslint-disable-next-line
+            /^\+\d{3}[\s-]?\d{2}[\s-]?\d{3}[\s-]?\d{3}$/;
+          // /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+
+          if (v.length > 0 && phoneNumberRegex.test(v)) {
+            return true;
+          } else {
+            return "Unesite validan broj telefona";
+          }
+        },
       ],
     };
   },
@@ -123,20 +287,35 @@ export default {
       if (!validation.valid) return;
 
       try {
-        if (!this.sameAddress) {
-          await this.ordersStore.createOrder(
-            this.firstName,
-            this.lastName,
-            this.shippingAddress, //send both addresses
-            this.billingAddress
-          );
-        } else {
-          await this.ordersStore.createOrder(
-            this.firstName,
-            this.lastName,
-            this.shippingAddress, //send shipping address twice
-            this.shippingAddress
-          );
+        if (this.sameAddress) {
+          this.billingAddress = { ...this.shippingAddress };
+        }
+        await this.ordersStore.createOrder(
+          this.firstName,
+          this.lastName,
+          this.shippingAddress,
+          this.billingAddress
+        );
+
+        if (this.saveCheckoutInfo) {
+          const checkoutData = {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            phoneNumber: this.phoneNumber,
+            shippingAddress: {
+              city: this.shippingAddress.city,
+              street: this.shippingAddress.street,
+              houseNumber: this.shippingAddress.houseNumber,
+              postalCode: this.shippingAddress.postalCode,
+            },
+            billingAddress: {
+              city: this.billingAddress.city,
+              street: this.billingAddress.street,
+              houseNumber: this.billingAddress.houseNumber,
+              postalCode: this.billingAddress.postalCode,
+            },
+          };
+          await this.userStore.saveCheckoutInfo(checkoutData);
         }
       } catch (error) {
         console.log(error);

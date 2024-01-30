@@ -10,13 +10,14 @@ export const useUserStore = defineStore("user", {
       name: null,
       email: null,
       role: null,
+      checkoutInfo: null,
     };
   },
   actions: {
     async login(email, password) {
       try {
         const res = await axios.post(
-          "http://localhost:3500/api/v1/user/login",
+          "http://192.168.0.19:3500/api/v1/user/login",
           {
             email,
             password,
@@ -29,7 +30,7 @@ export const useUserStore = defineStore("user", {
         this.email = res.data.email;
         // this.cart = res.data.cart;
         this.role = res.data.role;
-
+        this.checkoutInfo = res.data.checkoutInfo;
         await localStorage.setItem(
           "loggedInUser",
           JSON.stringify({
@@ -37,6 +38,7 @@ export const useUserStore = defineStore("user", {
             _id: this._id,
             name: this.name,
             role: this.role,
+            checkoutInfo: this.checkoutInfo,
           })
         ); // Persist login state
       } catch (error) {
@@ -52,12 +54,12 @@ export const useUserStore = defineStore("user", {
       this.name = null;
       this.email = null;
       cartStore.items = [];
-
+      this.checkoutInfo = null;
       localStorage.removeItem("loggedInUser"); // Remove login state
     },
     async signup(email, password, name) {
       try {
-        await axios.post("http://localhost:3500/api/v1/user/signup", {
+        await axios.post("http://192.168.0.19:3500/api/v1/user/signup", {
           email,
           password,
           name,
@@ -75,6 +77,40 @@ export const useUserStore = defineStore("user", {
         this._id = loggedInUser._id;
         this.name = loggedInUser.name;
         this.email = loggedInUser.email;
+        this.checkoutInfo = loggedInUser.checkoutInfo;
+      }
+    },
+    async fetchCheckoutInfo() {
+      const userStore = useUserStore();
+      const headers = {
+        Authorization: "Bearer " + userStore.token,
+      };
+      try {
+        const res = axios.get(
+          "http://192.168.0.19:3500/api/v1/user/checkout-info", //CREATE THIS GET ROUTE
+          {
+            headers,
+          }
+        );
+        this.checkoutInfo = res.data.items.checkoutInfo;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async saveCheckoutInfo(data) {
+      const userStore = useUserStore();
+      const headers = {
+        Authorization: "Bearer " + userStore.token,
+      };
+      try {
+        await axios.post(
+          "http://192.168.0.19:3500/api/v1/user/checkout-info",
+          data,
+          { headers }
+        );
+      } catch (error) {
+        console.log(error);
+        throw error.response.data.message;
       }
     },
   },

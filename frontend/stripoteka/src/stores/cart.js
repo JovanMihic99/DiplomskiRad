@@ -20,7 +20,7 @@ export const useCartStore = defineStore("cart", {
       };
       try {
         const res = await axios.post(
-          "http://localhost:3500/api/v1/user/cart",
+          "http://192.168.0.19:3500/api/v1/user/cart",
           reqBody,
           {
             headers,
@@ -40,9 +40,12 @@ export const useCartStore = defineStore("cart", {
         Authorization: "Bearer " + userStore.token,
       };
       try {
-        const res = await axios.get("http://localhost:3500/api/v1/user/cart", {
-          headers,
-        });
+        const res = await axios.get(
+          "http://192.168.0.19:3500/api/v1/user/cart",
+          {
+            headers,
+          }
+        );
 
         this.items = res.data.items;
       } catch (error) {
@@ -64,7 +67,7 @@ export const useCartStore = defineStore("cart", {
 
       try {
         // remove item from server
-        await axios.delete("http://localhost:3500/api/v1/user/cart/" + id, {
+        await axios.delete("http://192.168.0.19:3500/api/v1/user/cart/" + id, {
           headers,
         });
 
@@ -81,7 +84,7 @@ export const useCartStore = defineStore("cart", {
       const reqBody = { productId, quantity };
       try {
         const res = await axios.patch(
-          "http://localhost:3500/api/v1/user/cart",
+          "http://192.168.0.19:3500/api/v1/user/cart",
           reqBody,
           { headers }
         );

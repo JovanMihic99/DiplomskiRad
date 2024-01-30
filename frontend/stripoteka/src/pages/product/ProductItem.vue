@@ -1,6 +1,7 @@
 <template>
-  <v-card class="mx-auto" max-width="344" @click="productDetails(_id)">
+  <v-card class="mx-auto" max-width="344">
     <v-img
+      @click="productDetails(_id)"
       :src="
         'https://picsum.photos/id/' +
         Math.floor(Math.random() * 250) +

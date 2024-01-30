@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Product = require("../models/product");
+const { checkout } = require("../routes/user");
 
 exports.user_get_all = (req, res, next) => {
   User.find()
@@ -102,6 +103,7 @@ exports.user_login = (req, res, next) => {
             email: user.email,
 
             role: user.role,
+            checkoutInfo: user.checkoutInfo,
           });
         }
         return res.status(401).json({
@@ -201,7 +203,7 @@ exports.user_remove_from_cart = (req, res, next) => {
   req.user
     .save()
     .then((result) => {
-      console.log(req.user.cart);
+      // console.log(req.user.cart);
       res.status(200).json({
         message: "Deleted item " + id + " from cart of user " + req.user._id,
         count: req.user.cart.length,
@@ -219,18 +221,18 @@ exports.user_remove_from_cart = (req, res, next) => {
 exports.user_edit_cart_item = (req, res, next) => {
   let updatedCart = [...req.user.cart];
 
-  const productId = req.body.id;
+  const productId = req.body.productId;
   const quantity = req.body.quantity;
   const cartItemIndex = updatedCart.findIndex((item) => {
-    return item.productId.toString() !== productId;
+    return item.productId.toString() === productId;
   });
-  console.log(cartItemIndex);
+  // console.log(cartItemIndex, productId);
   updatedCart[cartItemIndex].quantity = quantity;
   req.user.cart = [...updatedCart];
   req.user
     .save()
     .then(() => {
-      console.log(req.user.cart);
+      // console.log(req.user.cart);
       res.status(200).json({
         message:
           "Updated item " + productId + " from cart of user " + req.user._id,
@@ -244,22 +246,43 @@ exports.user_edit_cart_item = (req, res, next) => {
         error: err,
       });
     });
+};
 
-  // req.user.cart = [...updatedCart];
-  // req.user
-  //   .save()
-  //   .then((result) => {
-  //     console.log(req.user.cart);
-  //     res.status(200).json({
-  //       message: "Deleted item " + id + " from cart of user " + req.user._id,
-  //       count: req.user.cart.length,
-  //       items: [...req.user.cart],
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.status(500).json({
-  //       error: err,
-  //     });
-  //   });
+exports.user_get_checkout_info = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((result) => {
+      // console.log(result);
+      res.status(200).json({
+        message: "Fetched checkout info for user " + req.user._id,
+        items: result.checkoutInfo,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+exports.user_save_checkout_info = (req, res, next) => {
+  const checkoutInfo = req.body;
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: { checkoutInfo } },
+    { new: true }
+  )
+    .then((result) => {
+      // console.log(result);
+      res.status(200).json({
+        message: "Saved checkout info for user " + req.user._id,
+        items: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 };
