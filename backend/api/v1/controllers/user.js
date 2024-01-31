@@ -267,13 +267,14 @@ exports.user_get_checkout_info = (req, res, next) => {
 
 exports.user_save_checkout_info = (req, res, next) => {
   const checkoutInfo = req.body;
+  console.log(checkoutInfo);
   User.findOneAndUpdate(
     { _id: req.user._id },
     { $set: { checkoutInfo } },
     { new: true }
   )
     .then((result) => {
-      // console.log(result);
+      console.log(result);
       res.status(200).json({
         message: "Saved checkout info for user " + req.user._id,
         items: result,

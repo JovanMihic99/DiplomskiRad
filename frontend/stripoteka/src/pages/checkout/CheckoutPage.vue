@@ -105,19 +105,11 @@
 
         <v-row class="ma-auto">
           <v-col cols="12" md="4" class="mx-auto">
-            <!-- <v-text-field
-            :rules="shippingAddressRules"
-            prepend-inner-icon="mdi-home-city"
-            type="text"
-            v-model="shippingAddress"
-            label="Adresa isporuke"
-            required
-          ></v-text-field> -->
             <v-text-field
               :rules="streetRules"
               prepend-inner-icon="mdi-home-city"
               type="text"
-              v-model="shippingAddress.street"
+              v-model="billingAddress.street"
               label="Ulica"
               required
             ></v-text-field>
@@ -129,7 +121,7 @@
               :rules="houseNumberRules"
               prepend-inner-icon="mdi-home-city"
               type="number"
-              v-model="shippingAddress.houseNumber"
+              v-model="billingAddress.houseNumber"
               label="Broj kuce"
               required
             ></v-text-field>
@@ -141,7 +133,7 @@
               :rules="cityRules"
               prepend-inner-icon="mdi-home-city"
               type="text"
-              v-model="shippingAddress.city"
+              v-model="billingAddress.city"
               label="Grad"
               required
             ></v-text-field>
@@ -153,7 +145,7 @@
               :rules="postalCodeRules"
               prepend-inner-icon="mdi-home-city"
               type="text"
-              v-model="shippingAddress.postalCode"
+              v-model="billingAddress.postalCode"
               label="Poštanski broj"
               required
             ></v-text-field>
@@ -220,9 +212,9 @@ export default {
   },
   async mounted() {
     await this.cartStore.getCart();
+    await this.userStore.fetchCheckoutInfo();
     try {
       // await this.userStore.initializeFromStorage();
-      this.userStore.fetchCheckoutInfo();
       const checkoutInfo = this.userStore.checkoutInfo;
       console.log(checkoutInfo);
       this.firstName = checkoutInfo.firstName;
@@ -268,7 +260,7 @@ export default {
         (v) => {
           const phoneNumberRegex =
             // eslint-disable-next-line
-            /^\+\d{3}[\s-]?\d{2}[\s-]?\d{3}[\s-]?\d{3}$/;
+            /^\+\d{3}[\s-]?\d{2}[\s-]?\d{3}[\s-]?\d{3,4}$/;
           // /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 
           if (v.length > 0 && phoneNumberRegex.test(v)) {

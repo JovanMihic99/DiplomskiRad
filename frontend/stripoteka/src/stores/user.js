@@ -86,13 +86,15 @@ export const useUserStore = defineStore("user", {
         Authorization: "Bearer " + userStore.token,
       };
       try {
-        const res = axios.get(
-          "http://192.168.0.19:3500/api/v1/user/checkout-info", //CREATE THIS GET ROUTE
+        const res = await axios.get(
+          "http://192.168.0.19:3500/api/v1/user/checkout-info",
           {
             headers,
           }
         );
-        this.checkoutInfo = res.data.items.checkoutInfo;
+        console.log(res.data.items);
+        this.checkoutInfo = res.data.items;
+        console.log(this.checkoutInfo);
       } catch (error) {
         console.log(error);
       }
