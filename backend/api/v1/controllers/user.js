@@ -168,12 +168,27 @@ exports.user_add_to_cart = (req, res, next) => {
 
 exports.user_get_cart = (req, res, next) => {
   req.user
-    .populate("cart.productId")
+    .populate(
+      "cart.productId",
+      "_id edition title issue description price imageUrl"
+    )
     .then((user) => {
       let products = [];
+      //REWORK THIS TOMORROW
       const quantities = user.cart.map((item) => item.quantity); // extract quantities
       const productData = user.cart.map((item) => item.productId); // extract product information
+      console.log(productData);
       for (let i = 0; i < productData.length; i++) {
+        if (productData[i] === null) {
+          //if the product has been deleted do not send it in response
+          // console.log(i);
+          // user.cart = user.cart.filter(
+          //   (item) => item.productId === productData[i]._id
+          // );
+          // user.save();
+          continue;
+        }
+        console.log(productData[i]);
         delete productData[i]._doc.__v; // remove mongodb's __v property
         const product = productData[i]._doc;
         products.push({ ...product, quantity: quantities[i] }); // put productData and quantity into one object

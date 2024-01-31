@@ -20,8 +20,6 @@ export const useProductsStore = defineStore("products", {
     },
     async createProduct(formData) {
       const userStore = useUserStore();
-      console.log(formData);
-      console.log("token", userStore.token);
       const headers = {
         Authorization: "Bearer " + userStore.token,
         "Content-Type": "multipart/form-data",

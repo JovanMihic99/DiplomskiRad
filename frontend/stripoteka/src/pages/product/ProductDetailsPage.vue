@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="pa-3">
     <h1>{{ product.edition }} #{{ product.issue }} "{{ product.title }}"</h1>
-    <v-img :src="product.imageUrl"></v-img>
+    <v-img :src="'http://localhost:3500/' + product.imageUrl"></v-img>
     <p class="justify-center">{{ product.description }}</p>
 
     <b class="text-h5">Cena: {{ product.price }}</b>
+
     <p>Pogledaj jos druge brojeve iz ove edicije:</p>
     <v-carousel></v-carousel>
   </div>
