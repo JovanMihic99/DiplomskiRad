@@ -2,11 +2,7 @@
   <v-card class="mx-auto" max-width="344">
     <v-img
       @click="productDetails(_id)"
-      :src="
-        'https://picsum.photos/id/' +
-        Math.floor(Math.random() * 250) +
-        '/200/300'
-      "
+      :src="'http://localhost:3500/' + imageUrl"
       height="10rem"
       fill-height
       cover

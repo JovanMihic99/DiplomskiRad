@@ -2,7 +2,7 @@
   <div>
     <h1 class="text-h3 text-center mb-5">Dodaj novi strip</h1>
 
-    <v-form @submit.prevent="sendOrder" ref="form">
+    <v-form @submit.prevent="submitProduct" ref="form">
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
           <v-combobox
@@ -15,6 +15,7 @@
               'Texas',
               'Wyoming',
             ]"
+            v-model="edition"
           ></v-combobox>
         </v-col>
       </v-row>
@@ -58,7 +59,7 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="4" class="ma-auto">
-          <v-file-input label="Slika stripa"></v-file-input>
+          <v-file-input label="Slika stripa" ref="fileInput"></v-file-input>
         </v-col>
       </v-row>
       <v-row>
@@ -90,7 +91,7 @@
 import { useProductsStore } from "@/stores/products";
 export default {
   setup() {
-    const productsStore = useProductsStore;
+    const productsStore = useProductsStore();
 
     return { productsStore };
   },
@@ -109,8 +110,8 @@ export default {
       descriptionRules: [
         (v) => v.length >= 5 || "Opis mora sadržati bar pet slova",
       ],
-      priceRules: [(v) => v.length || "Cena je obavezna"],
-      issueRules: [(v) => v.length || "Broj izdanja je obavezan"],
+      priceRules: [(v) => !!v || "Cena je obavezna"],
+      issueRules: [(v) => !!v || "Broj izdanja je obavezan"],
     };
   },
   methods: {
@@ -119,16 +120,17 @@ export default {
         return true;
       }
     },
-    async sendOrder() {
+    async submitProduct() {
       const validation = await this.$refs.form.validate();
       if (!validation.valid) return;
-
-      await this.productsStore.createProduct(
-        this.firstName,
-        this.lastName,
-        this.shippingAddress,
-        this.billingAddress
-      );
+      const formData = new FormData();
+      formData.append("edition", this.edition);
+      formData.append("issue", this.issue);
+      formData.append("title", this.title);
+      formData.append("description", this.description);
+      formData.append("price", this.price);
+      formData.append("productImage", this.$refs.fileInput.files[0]);
+      await this.productsStore.createProduct(formData);
     },
   },
 };

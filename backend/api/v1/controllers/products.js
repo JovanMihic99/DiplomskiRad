@@ -28,17 +28,19 @@ exports.products_get_all = (req, res, next) => {
     });
 };
 exports.products_create_product = (req, res, next) => {
+  // console.log(req.file);
   const product = new Product({
     edition: req.body.edition,
     title: req.body.title,
     issue: req.body.issue,
     description: req.body.description,
     price: req.body.price,
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.file.path,
   });
   product
     .save()
     .then((result) => {
+      console.log(result);
       const createdProduct = {
         _id: result._doc._id,
         edition: result._doc.edition,

@@ -68,7 +68,7 @@ const router = createRouter({
       component: AddProductPage,
       children: [
         {
-          path: "/add-product",
+          path: "add-product",
           component: AddProductPage,
         },
       ],
