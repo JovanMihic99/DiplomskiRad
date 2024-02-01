@@ -10,9 +10,7 @@ export const useProductsStore = defineStore("products", {
   actions: {
     async fetchProducts() {
       try {
-        const res = await axios.get(
-          "http://192.168.0.19:3500/api/v1/products/"
-        );
+        const res = await axios.get("http://localhost:3500/api/v1/products/");
         this.products = res.data.response.products;
       } catch (error) {
         return error.message;
@@ -26,13 +24,9 @@ export const useProductsStore = defineStore("products", {
       };
 
       try {
-        await axios.post(
-          "http://192.168.0.19:3500/api/v1/products/",
-          formData,
-          {
-            headers,
-          }
-        );
+        await axios.post("http://localhost:3500/api/v1/products/", formData, {
+          headers,
+        });
       } catch (error) {
         console.log(error);
       }

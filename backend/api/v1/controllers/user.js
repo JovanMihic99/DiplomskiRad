@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Product = require("../models/product");
-const { checkout } = require("../routes/user");
+// const { checkout } = require("../routes/user");
 
 exports.user_get_all = (req, res, next) => {
   User.find()

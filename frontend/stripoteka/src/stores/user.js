@@ -17,7 +17,7 @@ export const useUserStore = defineStore("user", {
     async login(email, password) {
       try {
         const res = await axios.post(
-          "http://192.168.0.19:3500/api/v1/user/login",
+          "http://localhost:3500/api/v1/user/login",
           {
             email,
             password,
@@ -59,7 +59,7 @@ export const useUserStore = defineStore("user", {
     },
     async signup(email, password, name) {
       try {
-        await axios.post("http://192.168.0.19:3500/api/v1/user/signup", {
+        await axios.post("http://localhost:3500/api/v1/user/signup", {
           email,
           password,
           name,
@@ -87,7 +87,7 @@ export const useUserStore = defineStore("user", {
       };
       try {
         const res = await axios.get(
-          "http://192.168.0.19:3500/api/v1/user/checkout-info",
+          "http://localhost:3500/api/v1/user/checkout-info",
           {
             headers,
           }
@@ -106,7 +106,7 @@ export const useUserStore = defineStore("user", {
       };
       try {
         await axios.post(
-          "http://192.168.0.19:3500/api/v1/user/checkout-info",
+          "http://localhost:3500/api/v1/user/checkout-info",
           data,
           { headers }
         );

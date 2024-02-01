@@ -27,4 +27,11 @@ const productSchema = new Schema({
     required: false,
   },
 });
+productSchema.post("remove", removeProductFromCarts);
+async function removeProductFromCarts(doc) {
+  await User.updateMany(
+    { "cart.productId": doc._id },
+    { $pull: { cart: { productId: doc._id } } }
+  );
+}
 module.exports = mongoose.model("Product", productSchema);
