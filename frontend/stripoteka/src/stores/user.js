@@ -30,6 +30,7 @@ export const useUserStore = defineStore("user", {
         this.email = res.data.email;
         // this.cart = res.data.cart;
         this.role = res.data.role;
+        console.log(this.role);
         this.checkoutInfo = res.data.checkoutInfo;
         await localStorage.setItem(
           "loggedInUser",
@@ -41,6 +42,7 @@ export const useUserStore = defineStore("user", {
             checkoutInfo: this.checkoutInfo,
           })
         ); // Persist login state
+        console.log(localStorage);
       } catch (error) {
         // Handle the error, e.g., log it or show message message
         console.log(error);

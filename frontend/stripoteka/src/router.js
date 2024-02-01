@@ -1,16 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+// import { useUserStore } from "./stores/user";
+
 // import HomePage from "./pages/HomePage.vue";
 import NotFoundPage from "./pages/NotFoundPage.vue";
 import CartPage from "./pages/cart/CartPage.vue";
 import AccountPage from "./pages/user/AccountPage.vue";
 import LoginPage from "./pages/user/LoginPage.vue";
-import ProductList from "./pages/product/ProductList.vue";
 import SignupPage from "./pages/user/SignupPage.vue";
 import CheckoutPage from "./pages/checkout/CheckoutPage.vue";
-import AddProductPage from "./pages/product/AddProductPage.vue";
 import OrdersList from "./pages/user/OrdersList.vue";
+
+import ProductList from "./pages/product/ProductList.vue";
 import ProductDetailsPage from "./pages/product/ProductDetailsPage.vue";
+
+import AddProductPage from "./pages/admin/AddProductPage.vue";
+import AdminProductListPage from "./pages/admin/AdminProductListPage.vue";
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -65,11 +71,24 @@ const router = createRouter({
 
     {
       path: "/admin",
-      component: AddProductPage,
+      // beforeEnter:  () => {
+      //   const userStore =  useUserStore();
+
+      //   if (userStore.role !== "admin") {
+      //     console.log(userStore.role);
+      //     return false;
+      //   } else {
+      //     return true;
+      //   }
+      // },
       children: [
         {
           path: "add-product",
           component: AddProductPage,
+        },
+        {
+          path: "products",
+          component: AdminProductListPage,
         },
       ],
     },

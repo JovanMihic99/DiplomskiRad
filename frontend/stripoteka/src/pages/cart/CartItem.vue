@@ -14,21 +14,36 @@
         type="number"
         label="Količina"
     /></v-col>
-    <v-col md="2" cols="12" class="my-auto">
-      <v-btn class="mr-1" icon @click="removeFromCart(_id)" text="Delete">
+    <v-col md="3" cols="12" class="my-auto">
+      <v-btn
+        class="mr-1"
+        icon
+        size="large"
+        @click="removeFromCart(_id)"
+        text="Delete"
+      >
         <v-icon>mdi-delete</v-icon>
       </v-btn>
 
-      <v-btn :isLoading="true" icon @click="editMode = !editMode">
+      <v-btn
+        :isLoading="true"
+        class="mr-1"
+        icon
+        size="large"
+        @click="editMode = !editMode"
+      >
         <v-icon v-if="!editMode">mdi-pencil</v-icon>
         <v-icon v-else>mdi-close</v-icon>
       </v-btn>
-      <v-btn v-if="editMode" icon @click="saveEditCart(_id, qty)">
+      <v-btn
+        v-if="editMode"
+        class="mr-1"
+        icon
+        size="large"
+        @click="saveEditCart(_id, qty)"
+      >
         <v-icon>mdi-check</v-icon>
       </v-btn>
-      <!-- <v-btn v-else icon @click="editMode = !editMode">
-        <v-icon>mdi-close</v-icon>
-      </v-btn> -->
     </v-col>
   </v-row>
   <v-row :align="'center'"> </v-row>

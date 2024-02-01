@@ -55,8 +55,16 @@ exports.orders_get_user_orders = async (req, res, next) => {
     let orders = await Order.find({ userId: userId }).populate(
       "products.productId"
     );
-    // console.log(orders[0].products);
+    console.log(orders[0].products);
     // Transform orders to include product details and quantities
+
+    //if the product has been deleted do not send it in response
+    // console.log(i);
+    // user.cart = user.cart.filter(
+    //   (item) => item.productId === productData[i]._id
+    // );
+    // user.save();
+
     orders = orders.map((order) => {
       const transformedProducts = order.products.map((p) => ({
         _id: p.productId._id,
