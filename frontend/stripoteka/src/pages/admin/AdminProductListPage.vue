@@ -1,7 +1,15 @@
 <template>
   <div>
-    <base-dialog title="Edit product" v-if="isEditing" teleport="body">
-      <edit-product-component :productData="itemData"></edit-product-component>
+    <base-dialog
+      title="Edit product"
+      @closedDialog="isEditing = false"
+      v-if="isEditing"
+      teleport="body"
+    >
+      <edit-product-component
+        :productData="itemData"
+        @productSaved="fetchProducts(), (isEditing = false)"
+      ></edit-product-component>
     </base-dialog>
     <h1 class="text-center">Proizvodi</h1>
     <v-progress-linear
@@ -74,16 +82,18 @@ export default {
       try {
         await this.productsStore.fetchProducts();
         this.items = this.productsStore.products;
-        console.log(this.items);
-        console.log();
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     },
-    editItem(item) {
-      console.log(item);
+    async editItem(item) {
+      // console.log(item);
+      console.log(this.isEditing);
       this.isEditing = true;
+      console.log(this.isEditing);
+      delete item.imageUrl;
       this.itemData = { ...item };
+      console.log("item data: ", this.itemData);
 
       // Logic to handle editing the item
     },
@@ -93,7 +103,6 @@ export default {
       await this.productsStore.deleteProduct(item._id);
       this.isLoading = false;
       this.fetchProducts();
-      // Logic to handle deleting the item
     },
   },
 };

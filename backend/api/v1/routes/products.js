@@ -46,10 +46,11 @@ router.post(
 
 router.get("/:productId", ProductsController.products_get_product);
 
-router.patch(
+router.post(
   "/:productId",
   authenticate,
   authorize("admin"),
+  upload.single("productImage"),
   ProductsController.products_update_product
 );
 
@@ -63,7 +64,7 @@ router.delete(
 router.post(
   "/products/edition",
   authenticate,
-  authorize,
+  authorize("admin"),
   ProductsController.products_add_edition
 );
 module.exports = router;

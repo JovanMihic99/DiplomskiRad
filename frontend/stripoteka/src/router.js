@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-// import { useUserStore } from "./stores/user";
+import { useUserStore } from "./stores/user";
 
 // import HomePage from "./pages/HomePage.vue";
 import NotFoundPage from "./pages/NotFoundPage.vue";
@@ -23,15 +23,17 @@ const router = createRouter({
     {
       path: "/",
       component: ProductList,
+      meta: { auth: false },
     },
     {
       path: "/user",
-      beforeEnter: () => {
-        // reject navigation if user is not logged in
-        if (!localStorage.getItem("loggedInUser")) {
-          return false;
-        }
-      },
+      // beforeEnter: () => {
+      //   // reject navigation if user is not logged in
+      //   if (!localStorage.getItem("loggedInUser")) {
+      //     return false;
+      //   }
+      // },
+      meta: { auth: true },
       children: [
         {
           path: "cart",
@@ -55,18 +57,22 @@ const router = createRouter({
     {
       path: "/login",
       component: LoginPage,
+      meta: { auth: false },
     },
     {
       path: "/products",
       component: ProductList,
+      meta: { auth: false },
     },
     {
       path: "/products/:id",
       component: ProductDetailsPage,
+      meta: { auth: false },
     },
     {
       path: "/register",
       component: SignupPage,
+      meta: { auth: false },
     },
 
     {
@@ -81,6 +87,7 @@ const router = createRouter({
       //     return true;
       //   }
       // },
+      meta: { auth: true, admin: true },
       children: [
         {
           path: "add-product",
@@ -96,8 +103,23 @@ const router = createRouter({
       name: "not-found",
       path: "/:catchAll(.*)",
       component: NotFoundPage,
+      meta: { auth: false },
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  if (to.meta.auth && !userStore.token) {
+    //auth required
+    console.log("Auth required, token: ", userStore.token);
+    next("/login");
+  }
+  if (to.meta.admin && userStore.role !== "admin") {
+    console.log("userStore.role: ", userStore);
+    next("/");
+  }
+  next();
 });
 
 export default router;

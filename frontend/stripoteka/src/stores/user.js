@@ -23,15 +23,13 @@ export const useUserStore = defineStore("user", {
             password,
           }
         );
-
         this.token = res.data.token;
         this._id = res.data._id;
         this.name = res.data.name;
         this.email = res.data.email;
-        // this.cart = res.data.cart;
         this.role = res.data.role;
-        console.log(this.role);
         this.checkoutInfo = res.data.checkoutInfo;
+        // Persist login state
         await localStorage.setItem(
           "loggedInUser",
           JSON.stringify({
@@ -41,12 +39,9 @@ export const useUserStore = defineStore("user", {
             role: this.role,
             checkoutInfo: this.checkoutInfo,
           })
-        ); // Persist login state
-        console.log(localStorage);
+        );
       } catch (error) {
-        // Handle the error, e.g., log it or show message message
         console.log(error);
-        // throw error.response.data.message; // rethrow the error to let the calling code handle it
       }
     },
     async logout() {
@@ -79,6 +74,8 @@ export const useUserStore = defineStore("user", {
         this._id = loggedInUser._id;
         this.name = loggedInUser.name;
         this.email = loggedInUser.email;
+        this.role = loggedInUser.role;
+
         this.checkoutInfo = loggedInUser.checkoutInfo;
       }
     },

@@ -166,7 +166,6 @@
         <v-col cols="12" md="4" class="ma-auto">
           <v-checkbox
             label="Sacuvaj podatke"
-            checked
             v-model="saveCheckoutInfo"
           ></v-checkbox>
         </v-col>

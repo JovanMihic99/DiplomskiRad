@@ -63,6 +63,49 @@ exports.products_create_product = (req, res, next) => {
     });
 };
 
+exports.products_update_product = (req, res, next) => {
+  const id = req.params.productId;
+  const product = new Product({
+    edition: req.body.edition,
+    title: req.body.title,
+    issue: req.body.issue,
+    description: req.body.description,
+    price: req.body.price,
+    // imageUrl: req.file.path,
+  });
+
+  // for (const op of req.body) {
+  //   updateOps[op.propName] = op.value;
+  // }
+  Product.findOne({ _id: id })
+    .exec()
+    .then((result) => {
+      result.edition = req.body.edition;
+      result.title = req.body.title;
+      result.issue = req.body.issue;
+      result.description = req.body.description;
+      result.price = req.body.price;
+      // console.log(req.file);
+      if (req.file) {
+        result.imageUrl = req.file.path;
+      }
+      console.log(result);
+      result
+        .save()
+        .then((result) => {
+          res.status(200).json({
+            message: "Updated product " + id,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
+      // if (req.file) {
+      //   result.imageUrl = req.file.path;
+      // }
+    });
+};
+
 exports.products_get_product = (req, res, next) => {
   const id = req.params.productId;
   Product.findOne({ _id: id })
@@ -83,23 +126,6 @@ exports.products_get_product = (req, res, next) => {
       res.status(500).json({
         error: err,
       });
-    });
-};
-
-exports.products_update_product = (req, res, next) => {
-  const id = req.params.productId;
-  const updateOps = {};
-  for (const op of req.body) {
-    updateOps[op.propName] = op.value;
-  }
-  Product.findByIdAndUpdate(id, { $set: updateOps }, { new: true })
-    .then((result) => {
-      res.status(200).json({
-        message: "Updated product " + id,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
     });
 };
 

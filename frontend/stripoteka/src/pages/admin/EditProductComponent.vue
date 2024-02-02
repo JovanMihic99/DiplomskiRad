@@ -1,8 +1,10 @@
 <template>
   <div>
     <h1 class="text-h3 text-center mb-5">Izmeni strip</h1>
-
-    <v-form @submit.prevent="submitProduct" ref="form">
+    <div class="text-center" v-if="isLoading">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+    <v-form v-else @submit.prevent="saveProduct" ref="form">
       <v-row>
         <v-col cols="12" class="ma-auto">
           <v-combobox
@@ -59,7 +61,15 @@
       </v-row>
       <v-row>
         <v-col cols="12" class="ma-auto">
-          <v-file-input label="Slika stripa" ref="fileInput"></v-file-input>
+          <v-checkbox
+            label="Promeni sliku"
+            v-model="shouldUploadImage"
+          ></v-checkbox>
+          <v-file-input
+            :disabled="!shouldUploadImage"
+            label="Slika stripa"
+            ref="fileInput"
+          ></v-file-input>
         </v-col>
       </v-row>
       <v-row>
@@ -95,22 +105,19 @@ export default {
 
     return { productsStore };
   },
+  emits: ["productSaved"],
   props: ["productData"],
-  async mounted() {},
   data() {
     return {
+      isLoading: false,
+      shouldUploadImage: false,
       title: this.productData.title,
       description: this.productData.description,
       issue: this.productData.issue,
       price: this.productData.price,
-      imageUrl: this.productData.imageUrl,
       edition: this.productData.edition,
-      titleRules: [
-        (v) => v.length >= 5 || "Naslov mora sadržati bar pet slova",
-      ],
-      descriptionRules: [
-        (v) => v.length >= 5 || "Opis mora sadržati bar pet slova",
-      ],
+      titleRules: [(v) => !!v || "Naslov je obavezan"],
+      descriptionRules: [(v) => !!v || "Opis je obavezan"],
       priceRules: [(v) => !!v || "Cena je obavezna"],
       issueRules: [(v) => !!v || "Broj izdanja je obavezan"],
     };
@@ -121,7 +128,7 @@ export default {
         return true;
       }
     },
-    async submitProduct() {
+    async saveProduct() {
       const validation = await this.$refs.form.validate();
       if (!validation.valid) return;
       const formData = new FormData();
@@ -130,8 +137,24 @@ export default {
       formData.append("title", this.title);
       formData.append("description", this.description);
       formData.append("price", this.price);
-      formData.append("productImage", this.$refs.fileInput.files[0]);
+
+      if (this.shouldUploadImage) {
+        formData.append("productImage", this.$refs.fileInput.files[0]);
+        // console.log(formDataA.productImage);
+      }
+      console.log(
+        this.edition,
+        this.issue,
+        this.title,
+        this.description,
+        this.price
+      );
+      console.log("FormData:", formData);
+      this.isLoading = true;
       await this.productsStore.editProduct(this.productData._id, formData);
+      this.isLoading = false;
+
+      this.$emit("productSaved");
     },
   },
 };
