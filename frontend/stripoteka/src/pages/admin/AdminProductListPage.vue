@@ -21,7 +21,7 @@
       :headers="headers"
       :items="items"
       item-key="_id"
-      class="elevation-1"
+      class="elevation-1 px-2"
     >
       <template v-slot:[`item.edit`]="{ item }">
         <v-btn
@@ -91,7 +91,7 @@ export default {
       console.log(this.isEditing);
       this.isEditing = true;
       console.log(this.isEditing);
-      delete item.imageUrl;
+      // delete item.imageUrl;
       this.itemData = { ...item };
       console.log("item data: ", this.itemData);
 
@@ -107,3 +107,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>
