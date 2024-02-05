@@ -11,7 +11,9 @@
           prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
           :title="userStore.name"
           :subtitle="userStore.email"
-        ></v-list-item>
+          :append-icon="isAdmin ? 'mdi-security' : null"
+        >
+        </v-list-item>
       </v-list>
 
       <v-divider></v-divider>
@@ -23,6 +25,7 @@
           title="Homepage"
           value="homepage"
         ></v-list-item>
+
         <v-list-item
           @click="$router.push('/user/cart')"
           prepend-icon="mdi-cart"
@@ -52,9 +55,14 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :elevation="2" app>
-      <v-app-bar-title>
-        <span>Stripoteka</span>
-      </v-app-bar-title>
+      <dropdown-button
+        v-if="isAdmin"
+        :items="[
+          { title: 'Stripovi', to: '/admin/products' },
+          { title: 'Dodaj Strip', to: '/admin/add-product' },
+        ]"
+        >Admin Panel</dropdown-button
+      >
       <dropdown-button
         :items="[
           { title: 'cart', to: '/user/cart' },
@@ -62,6 +70,9 @@
         ]"
         >Stripovi
       </dropdown-button>
+      <v-app-bar-title>
+        <span>Stripoteka</span>
+      </v-app-bar-title>
 
       <v-app-bar-nav-icon
         v-if="isLoggedIn"
@@ -80,6 +91,7 @@
 </template>
 <script>
 import { useUserStore } from "@/stores/user";
+import DropdownButton from "../UI/DropdownButton.vue";
 export default {
   setup() {
     const userStore = useUserStore();
@@ -90,11 +102,17 @@ export default {
       sidebarIsOpen: false,
     };
   },
-
   computed: {
     isLoggedIn() {
       if (this.userStore._id) return true;
       else return false;
+    },
+    isAdmin() {
+      if (this.userStore.role === "admin") {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   methods: {
@@ -104,6 +122,7 @@ export default {
       return true;
     },
   },
+  components: { DropdownButton },
 };
 </script>
 <style lang="css" scoped>

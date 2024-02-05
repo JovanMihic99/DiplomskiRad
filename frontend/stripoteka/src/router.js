@@ -77,16 +77,6 @@ const router = createRouter({
 
     {
       path: "/admin",
-      // beforeEnter:  () => {
-      //   const userStore =  useUserStore();
-
-      //   if (userStore.role !== "admin") {
-      //     console.log(userStore.role);
-      //     return false;
-      //   } else {
-      //     return true;
-      //   }
-      // },
       meta: { auth: true, admin: true },
       children: [
         {
