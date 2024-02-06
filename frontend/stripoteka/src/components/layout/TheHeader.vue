@@ -60,6 +60,7 @@
         :items="[
           { title: 'Stripovi', to: '/admin/products' },
           { title: 'Dodaj Strip', to: '/admin/add-product' },
+          { title: 'Porudžbine', to: '/admin/orders' },
         ]"
         >Admin Panel</dropdown-button
       >

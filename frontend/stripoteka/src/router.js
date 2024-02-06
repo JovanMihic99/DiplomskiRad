@@ -16,6 +16,7 @@ import ProductDetailsPage from "./pages/product/ProductDetailsPage.vue";
 
 import AddProductPage from "./pages/admin/AddProductPage.vue";
 import AdminProductListPage from "./pages/admin/AdminProductListPage.vue";
+import OrderListPage from "./pages/admin/OrderListPage.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -86,6 +87,10 @@ const router = createRouter({
         {
           path: "products",
           component: AdminProductListPage,
+        },
+        {
+          path: "orders",
+          component: OrderListPage,
         },
       ],
     },

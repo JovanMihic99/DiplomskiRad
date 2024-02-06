@@ -3,9 +3,19 @@ const Order = require("../models/order");
 const User = require("../models/user");
 
 exports.orders_get_all = (req, res, next) => {
-  res.status(200).json({
-    message: "Fetched orders",
-  });
+  Order.find()
+    .then((result) => {
+      res.status(200).json({
+        message: "Fetched orders",
+        count: result.length,
+        orders: result,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
 };
 exports.orders_create_order = (req, res, next) => {
   const userId = req.user._id;

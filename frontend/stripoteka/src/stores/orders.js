@@ -55,7 +55,7 @@ export const useOrdersStore = defineStore("orders", {
       };
 
       try {
-        const res = await axios.get("http://localhost:3500/api/v1/orders/", {
+        const res = await axios.get("http://localhost:3500/api/v1/orders/all", {
           headers,
         });
         this.orders = res.data.orders;
