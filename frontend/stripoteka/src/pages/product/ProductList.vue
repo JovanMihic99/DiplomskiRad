@@ -69,6 +69,8 @@ export default {
       sortingOptions: [
         { title: "Cena - Rastuća", value: "priceAsc" },
         { title: "Cena - Opadajuća", value: "priceDesc" },
+        { title: "Broj - Rastući", value: "issueAsc" },
+        { title: "Broj - Opadajući", value: "issueDesc" },
       ],
       selectedSorting: "",
       editionFilters: [],
@@ -92,6 +94,18 @@ export default {
         case "priceDesc": {
           this.filteredProducts = this.filteredProducts.sort((a, b) => {
             return parseFloat(b.price) - parseFloat(a.price);
+          });
+          break;
+        }
+        case "issueAsc": {
+          this.filteredProducts = this.filteredProducts.sort((a, b) => {
+            return a.issue - b.issue;
+          });
+          break;
+        }
+        case "issueDesc": {
+          this.filteredProducts = this.filteredProducts.sort((a, b) => {
+            return b.issue - a.issue;
           });
           break;
         }
