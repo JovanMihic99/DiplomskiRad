@@ -14,8 +14,6 @@
         ></v-select>
       </v-col>
     </v-row>
-
-    <h2>{{ editionFilters }}</h2>
     <v-row>
       <v-col cols="12" md="4" class="mx-auto mt-8"> </v-col>
     </v-row>
@@ -47,6 +45,9 @@ export default {
     products() {
       return this.productsStore.products;
     },
+    editions() {
+      return this.productsStore.editions;
+    },
   },
   setup() {
     const productsStore = useProductsStore();
@@ -58,14 +59,6 @@ export default {
     return {
       editionFilters: [],
       filteredProducts: null,
-      editions: [
-        "Dilan Dog",
-        "Milan Dog",
-        "Milki Dogi",
-        "Milan Dogic",
-        "Texas",
-        "Wyoming",
-      ],
     };
   },
   methods: {

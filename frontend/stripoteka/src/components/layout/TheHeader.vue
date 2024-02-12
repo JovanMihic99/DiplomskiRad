@@ -119,7 +119,7 @@ export default {
   methods: {
     async logout() {
       await this.userStore.logout();
-      this.$router.push("/");
+      this.$router.go("/");
       return true;
     },
   },

@@ -61,10 +61,10 @@ router.delete(
   ProductsController.products_delete_product
 );
 
-router.post(
-  "/products/edition",
-  authenticate,
-  authorize("admin"),
-  ProductsController.products_add_edition
-);
+// router.get(
+//   "/edition",
+//   authenticate,
+//   authorize("admin"),
+//   ProductsController.products_add_edition
+// );
 module.exports = router;

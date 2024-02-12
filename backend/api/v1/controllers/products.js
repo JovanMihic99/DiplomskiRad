@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const Product = require("../models/product");
 const Edition = require("../models/edition");
 
-exports.products_get_all = (req, res, next) => {
+exports.products_get_all = async (req, res, next) => {
+  const editions = await Product.getEditions();
+  console.log(editions);
   Product.find()
     .select("edition title issue description price imageUrl")
     .exec()
@@ -14,9 +16,11 @@ exports.products_get_all = (req, res, next) => {
             ...p._doc,
           };
         }),
+        editions,
       };
       res.status(200).json({
         message: "Fetched products",
+
         response,
       });
     })
@@ -140,16 +144,11 @@ exports.products_delete_product = (req, res, next) => {
         _id: id,
         result,
       });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
     });
-};
-
-exports.products_add_edition = (req, res, next) => {
-  const edition = new Edition({ edition: req.body.edition });
-  edition.save().then((result) => {
-    res.status(200).json({
-      message: "Created edition" + edition._id,
-
-      result,
-    });
-  });
 };

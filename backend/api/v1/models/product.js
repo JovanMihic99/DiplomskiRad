@@ -34,4 +34,13 @@ async function removeProductFromCarts(doc) {
     { $pull: { cart: { productId: doc._id } } }
   );
 }
+
+productSchema.statics.getEditions = async function () {
+  try {
+    const editions = await this.distinct("edition").exec();
+    return editions;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 module.exports = mongoose.model("Product", productSchema);

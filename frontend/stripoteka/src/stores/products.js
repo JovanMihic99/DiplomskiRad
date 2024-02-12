@@ -5,6 +5,7 @@ export const useProductsStore = defineStore("products", {
   state: () => {
     return {
       products: [],
+      editions: [],
     };
   },
   actions: {
@@ -12,6 +13,7 @@ export const useProductsStore = defineStore("products", {
       try {
         const res = await axios.get("http://localhost:3500/api/v1/products/");
         this.products = res.data.response.products;
+        this.editions = res.data.response.editions;
       } catch (error) {
         return error.message;
       }
