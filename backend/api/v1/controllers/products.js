@@ -4,7 +4,6 @@ const Edition = require("../models/edition");
 
 exports.products_get_all = async (req, res, next) => {
   const editions = await Product.getEditions();
-  console.log(editions);
   Product.find()
     .select("edition title issue description price imageUrl")
     .exec()
@@ -32,7 +31,6 @@ exports.products_get_all = async (req, res, next) => {
     });
 };
 exports.products_create_product = (req, res, next) => {
-  // console.log(req.file);
   const product = new Product({
     edition: req.body.edition,
     title: req.body.title,

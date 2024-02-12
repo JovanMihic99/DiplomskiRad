@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div class="">
     <v-menu open-on-click>
       <template v-slot:activator="{ props }">
         <v-btn :append-icon="icon" @click="changeIcon" v-bind="props">

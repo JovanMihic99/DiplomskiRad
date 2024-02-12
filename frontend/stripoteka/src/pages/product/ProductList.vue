@@ -2,16 +2,25 @@
   <div>
     <v-row>
       <v-col cols="8" md="4" class="mx-auto">
-        <v-select
+        <v-autocomplete
           ref="selectEdition"
-          class=""
           label="Edicija"
           chips
           multiple
           @update:menu="applyFilters"
           v-model="editionFilters"
           :items="editions"
-        ></v-select>
+        ></v-autocomplete>
+        <v-select
+          ref="selectSorting"
+          label="Sortiranje"
+          @update:menu="applySorting"
+          :items="sortingOptions"
+          single-line
+          item-value="value"
+          v-model="selectedSorting"
+        >
+        </v-select>
       </v-col>
     </v-row>
     <v-row>
@@ -57,6 +66,11 @@ export default {
   },
   data() {
     return {
+      sortingOptions: [
+        { title: "Cena - Rastuća", value: "priceAsc" },
+        { title: "Cena - Opadajuća", value: "priceDesc" },
+      ],
+      selectedSorting: "",
       editionFilters: [],
       filteredProducts: null,
     };
@@ -67,11 +81,28 @@ export default {
         return this.editionFilters.includes(p.edition);
       });
     },
+    applySorting() {
+      switch (this.selectedSorting) {
+        case "priceAsc": {
+          this.filteredProducts = this.filteredProducts.sort((a, b) => {
+            return parseFloat(a.price) - parseFloat(b.price);
+          });
+          break;
+        }
+        case "priceDesc": {
+          this.filteredProducts = this.filteredProducts.sort((a, b) => {
+            return parseFloat(b.price) - parseFloat(a.price);
+          });
+          break;
+        }
+      }
+    },
   },
   async mounted() {
     // console.log(this.$refs.selectEdition);
     // console.log(this.edition);
-    console.log(this.filteredProducts);
+    // console.log(this.filteredProducts);
+
     await this.productsStore.fetchProducts();
     this.filteredProducts = this.products;
   },

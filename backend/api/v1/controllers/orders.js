@@ -11,7 +11,7 @@ exports.orders_get_all = (req, res, next) => {
         orders: result,
       });
     })
-    .catch((error) => {
+    .catch((err) => {
       res.status(500).json({
         error: err,
       });

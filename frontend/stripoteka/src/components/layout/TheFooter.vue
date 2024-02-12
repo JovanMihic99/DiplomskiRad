@@ -1,7 +1,7 @@
 <template>
-  <v-footer class="d-flex flex-column mt-10">
+  <v-footer class="d-flex flex-column mt-10" app>
     <div class="d-flex w-100 align-center px-4">
-      <strong>Get connected with us on social networks!</strong>
+      <strong>Pridruži se stripoteci na socijalnim mrežama!</strong>
 
       <v-spacer></v-spacer>
 

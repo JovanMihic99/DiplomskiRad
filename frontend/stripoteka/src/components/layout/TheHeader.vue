@@ -6,19 +6,39 @@
       v-model="sidebarIsOpen"
       location="right"
     >
-      <v-list>
+      <v-list v-if="isLoggedIn">
         <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
+          prepend-avatar="https://randomuser.me/api/portraits/men/82.jpg"
           :title="userStore.name"
           :subtitle="userStore.email"
           :append-icon="isAdmin ? 'mdi-security' : null"
         >
         </v-list-item>
       </v-list>
-
       <v-divider></v-divider>
 
       <v-list density="compact" nav class="listbox">
+        <v-list-item prepend-icon="mdi-security" v-if="isAdmin">
+          <dropdown-button
+            class="w-100"
+            v-if="isAdmin"
+            :items="[
+              { title: 'Stripovi', to: '/admin/products' },
+              { title: 'Dodaj Strip', to: '/admin/add-product' },
+              { title: 'Porudžbine', to: '/admin/orders' },
+            ]"
+            >Admin Panel</dropdown-button
+          >
+        </v-list-item>
+        <v-list-item prepend-icon="mdi-bookshelf">
+          <dropdown-button
+            :items="[
+              { title: 'cart', to: '/user/cart' },
+              { title: 'orders', to: '/user/orders' },
+            ]"
+            >Stripovi
+          </dropdown-button>
+        </v-list-item>
         <v-list-item
           @click="$router.push('/')"
           prepend-icon="mdi-home"
@@ -31,7 +51,9 @@
           prepend-icon="mdi-cart"
           title="My Cart"
           value="cart"
-        ></v-list-item>
+        >
+        </v-list-item>
+
         <v-list-item
           @click="$router.push('/user/account')"
           prepend-icon="mdi-account-circle"
@@ -55,22 +77,16 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :elevation="2" app>
-      <dropdown-button
-        v-if="isAdmin"
-        :items="[
-          { title: 'Stripovi', to: '/admin/products' },
-          { title: 'Dodaj Strip', to: '/admin/add-product' },
-          { title: 'Porudžbine', to: '/admin/orders' },
-        ]"
-        >Admin Panel</dropdown-button
-      >
-      <dropdown-button
-        :items="[
-          { title: 'cart', to: '/user/cart' },
-          { title: 'orders', to: '/user/orders' },
-        ]"
-        >Stripovi
-      </dropdown-button>
+      <v-list v-if="isLoggedIn">
+        <v-list-item
+          prepend-avatar="https://randomuser.me/api/portraits/men/82.jpg"
+          :title="userStore.name"
+          :subtitle="userStore.email"
+          :append-icon="isAdmin ? 'mdi-security' : null"
+        >
+        </v-list-item>
+      </v-list>
+
       <v-app-bar-title>
         <span>Stripoteka</span>
       </v-app-bar-title>
