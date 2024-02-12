@@ -4,23 +4,16 @@
 
     <v-form @submit.prevent="submitProduct" ref="form">
       <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+        <v-col cols="12" md="6" class="ma-auto">
           <v-combobox
             label="Izdanje"
-            :items="[
-              'California',
-              'Colorado',
-              'Florida',
-              'Georgia',
-              'Texas',
-              'Wyoming',
-            ]"
+            :items="editions"
             v-model="edition"
           ></v-combobox>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+        <v-col cols="12" md="6" class="ma-auto">
           <v-text-field
             :rules="issueRules"
             prepend-inner-icon="mdi-numeric"
@@ -32,7 +25,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+        <v-col cols="12" md="6" class="ma-auto">
           <v-text-field
             :rules="titleRules"
             prepend-inner-icon="mdi-form-textbox"
@@ -44,9 +37,8 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+        <v-col cols="12" md="6" class="ma-auto">
           <v-textarea
-            auto-grow
             clearable
             :rules="descriptionRules"
             prepend-inner-icon="mdi-form-textbox"
@@ -58,12 +50,12 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+        <v-col cols="12" md="6" class="ma-auto">
           <v-file-input label="Slika stripa" ref="fileInput"></v-file-input>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" class="ma-auto">
+        <v-col cols="12" md="6" class="ma-auto">
           <v-text-field
             :rules="priceRules"
             prepend-inner-icon="mdi-cash"
@@ -75,13 +67,14 @@
         </v-col>
       </v-row>
 
-      <v-row cols="12" md="4" class="ma-auto">
+      <v-row cols="12" md="6" class="ma-auto">
         <v-btn
           class="ma-auto"
           text="Dodaj proizvod"
           type="submit"
           prepend-icon="mdi-plus"
           color="primary"
+          :loading="isLoading"
         ></v-btn>
       </v-row>
     </v-form>
@@ -95,9 +88,17 @@ export default {
 
     return { productsStore };
   },
-  async mounted() {},
+  async mounted() {
+    await this.productsStore.fetchProducts();
+  },
+  computed: {
+    editions() {
+      return this.productsStore.editions;
+    },
+  },
   data() {
     return {
+      isLoading: false,
       title: "",
       description: "",
       issue: "",
@@ -130,7 +131,10 @@ export default {
       formData.append("description", this.description);
       formData.append("price", this.price);
       formData.append("productImage", this.$refs.fileInput.files[0]);
+      this.isLoading = true;
       await this.productsStore.createProduct(formData);
+      this.isLoading = false;
+      this.$router.go(0);
     },
   },
 };

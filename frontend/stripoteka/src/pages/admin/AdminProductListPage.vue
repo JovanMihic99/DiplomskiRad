@@ -82,6 +82,10 @@ export default {
       try {
         await this.productsStore.fetchProducts();
         this.items = this.productsStore.products;
+        this.items.forEach((item) => {
+          item.description = item.description.slice(0, 50) + "...";
+          console.log(item);
+        });
       } catch (error) {
         console.error("Error fetching products:", error);
       }

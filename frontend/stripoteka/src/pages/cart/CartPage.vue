@@ -65,7 +65,7 @@ export default {
     },
   },
   async mounted() {
-    this.refreshCart();
+    await this.refreshCart();
   },
 };
 </script>

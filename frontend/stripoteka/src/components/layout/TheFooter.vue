@@ -1,5 +1,5 @@
 <template>
-  <v-footer class="d-flex flex-column mt-10" app>
+  <v-footer class="d-flex flex-column mt-10">
     <div class="d-flex w-100 align-center px-4">
       <strong>Pridruži se stripoteci na socijalnim mrežama!</strong>
 
