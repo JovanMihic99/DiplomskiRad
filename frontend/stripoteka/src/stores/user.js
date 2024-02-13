@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { useCartStore } from "./cart";
-
+import config from "../config";
 export const useUserStore = defineStore("user", {
   state: () => {
     return {
@@ -16,13 +16,10 @@ export const useUserStore = defineStore("user", {
   actions: {
     async login(email, password) {
       try {
-        const res = await axios.post(
-          "http://localhost:3500/api/v1/user/login",
-          {
-            email,
-            password,
-          }
-        );
+        const res = await axios.post(config.API_URL + "/api/v1/user/login", {
+          email,
+          password,
+        });
         this.token = res.data.token;
         this._id = res.data._id;
         this.name = res.data.name;
@@ -56,7 +53,7 @@ export const useUserStore = defineStore("user", {
     },
     async signup(email, password, name) {
       try {
-        await axios.post("http://localhost:3500/api/v1/user/signup", {
+        await axios.post(config.API_URL + "/api/v1/user/signup", {
           email,
           password,
           name,
@@ -86,7 +83,7 @@ export const useUserStore = defineStore("user", {
       };
       try {
         const res = await axios.get(
-          "http://localhost:3500/api/v1/user/checkout-info",
+          config.API_URL + "/api/v1/user/checkout-info",
           {
             headers,
           }
@@ -104,11 +101,9 @@ export const useUserStore = defineStore("user", {
         Authorization: "Bearer " + userStore.token,
       };
       try {
-        await axios.post(
-          "http://localhost:3500/api/v1/user/checkout-info",
-          data,
-          { headers }
-        );
+        await axios.post(config.API_URL + "/api/v1/user/checkout-info", data, {
+          headers,
+        });
       } catch (error) {
         console.log(error);
         throw error.response.data.message;

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { useUserStore } from "./user";
 import { useCartStore } from "./cart";
-
+import config from "../config";
 export const useOrdersStore = defineStore("orders", {
   state: () => {
     return {
@@ -35,7 +35,7 @@ export const useOrdersStore = defineStore("orders", {
       };
       try {
         const res = await axios.post(
-          "http://localhost:3500/api/v1/orders/",
+          config.API_URL + "/api/v1/orders/",
           reqBody,
           {
             headers,
@@ -55,7 +55,7 @@ export const useOrdersStore = defineStore("orders", {
       };
 
       try {
-        const res = await axios.get("http://localhost:3500/api/v1/orders/all", {
+        const res = await axios.get(config.API_URL + "/api/v1/orders/all", {
           headers,
         });
         this.orders = res.data.orders;

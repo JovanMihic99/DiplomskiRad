@@ -7,7 +7,7 @@
     <div v-else>
       <v-row>
         <v-col cols="12" class="pa-4">
-          <v-img :src="'http://localhost:3500/' + productData.imageUrl"></v-img>
+          <v-img :src="API_URL + '/' + productData.imageUrl"></v-img>
         </v-col>
       </v-row>
       <v-form @submit.prevent="saveProduct" ref="form">
@@ -106,6 +106,7 @@
 </template>
 <script>
 import { useProductsStore } from "@/stores/products";
+import config from "../../config";
 export default {
   setup() {
     const productsStore = useProductsStore();
@@ -123,7 +124,7 @@ export default {
       issue: this.productData.issue,
       price: this.productData.price,
       edition: this.productData.edition,
-
+      API_URL: config.API_URL,
       titleRules: [(v) => !!v || "Naslov je obavezan"],
       descriptionRules: [(v) => !!v || "Opis je obavezan"],
       priceRules: [(v) => !!v || "Cena je obavezna"],

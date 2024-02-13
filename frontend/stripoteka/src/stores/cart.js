@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { useUserStore } from "./user";
-
+import config from "../config";
 export const useCartStore = defineStore("cart", {
   state: () => {
     return {
@@ -20,7 +20,7 @@ export const useCartStore = defineStore("cart", {
       };
       try {
         const res = await axios.post(
-          "http://localhost:3500/api/v1/user/cart",
+          config.API_URL + "/api/v1/user/cart",
           reqBody,
           {
             headers,
@@ -40,7 +40,7 @@ export const useCartStore = defineStore("cart", {
         Authorization: "Bearer " + userStore.token,
       };
       try {
-        const res = await axios.get("http://localhost:3500/api/v1/user/cart", {
+        const res = await axios.get(config.API_URL + "/api/v1/user/cart", {
           headers,
         });
 
@@ -64,7 +64,7 @@ export const useCartStore = defineStore("cart", {
 
       try {
         // remove item from server
-        await axios.delete("http://localhost:3500/api/v1/user/cart/" + id, {
+        await axios.delete(config.API_URL + "/api/v1/user/cart/" + id, {
           headers,
         });
 
@@ -81,7 +81,7 @@ export const useCartStore = defineStore("cart", {
       const reqBody = { productId, quantity };
       try {
         const res = await axios.patch(
-          "http://localhost:3500/api/v1/user/cart",
+          config.API_URL + "/api/v1/user/cart",
           reqBody,
           { headers }
         );

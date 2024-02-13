@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { useUserStore } from "./user";
+import config from "../config";
 export const useProductsStore = defineStore("products", {
   state: () => {
     return {
@@ -11,7 +12,7 @@ export const useProductsStore = defineStore("products", {
   actions: {
     async fetchProducts() {
       try {
-        const res = await axios.get("http://localhost:3500/api/v1/products/");
+        const res = await axios.get(config.API_URL + "/api/v1/products/");
         this.products = res.data.response.products;
         this.editions = res.data.response.editions;
       } catch (error) {
@@ -25,7 +26,7 @@ export const useProductsStore = defineStore("products", {
         "Content-Type": "multipart/form-data",
       };
       try {
-        await axios.post("http://localhost:3500/api/v1/products/", formData, {
+        await axios.post(config.API_URL + "/api/v1/products/", formData, {
           headers,
         });
       } catch (error) {
@@ -39,13 +40,9 @@ export const useProductsStore = defineStore("products", {
         "Content-Type": "multipart/form-data",
       };
       try {
-        await axios.post(
-          "http://localhost:3500/api/v1/products/" + id,
-          formData,
-          {
-            headers,
-          }
-        );
+        await axios.post(config.API_URL + "/api/v1/products/" + id, formData, {
+          headers,
+        });
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +53,7 @@ export const useProductsStore = defineStore("products", {
         Authorization: "Bearer " + userStore.token,
       };
       try {
-        await axios.delete("http://localhost:3500/api/v1/products/" + id, {
+        await axios.delete(config.API_URL + "/api/v1/products/" + id, {
           headers,
         });
       } catch (error) {

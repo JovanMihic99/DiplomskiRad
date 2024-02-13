@@ -28,12 +28,6 @@ const router = createRouter({
     },
     {
       path: "/user",
-      // beforeEnter: () => {
-      //   // reject navigation if user is not logged in
-      //   if (!localStorage.getItem("loggedInUser")) {
-      //     return false;
-      //   }
-      // },
       meta: { auth: true },
       children: [
         {
@@ -69,6 +63,7 @@ const router = createRouter({
       path: "/products/:id",
       component: ProductDetailsPage,
       meta: { auth: false },
+      name: "pdp",
     },
     {
       path: "/register",

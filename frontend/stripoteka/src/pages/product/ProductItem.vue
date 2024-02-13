@@ -3,7 +3,7 @@
     <v-img
       class="product-image"
       @click="productDetails(_id)"
-      :src="'http://localhost:3500/' + imageUrl"
+      :src="API_URL + '/' + imageUrl"
       height="auto"
       fill-height
       cover
@@ -29,6 +29,7 @@
 </template>
 <script>
 import { useCartStore } from "@/stores/cart";
+import config from "../../config";
 export default {
   props: [
     "_id",
@@ -43,6 +44,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      API_URL: config.API_URL,
     };
   },
   // computed: {},
