@@ -51,9 +51,24 @@
         </v-row>
       </v-col>
     </v-row>
-
-    <p>Pogledaj jos druge brojeve iz ove edicije:</p>
-    <v-carousel></v-carousel>
+    <v-row v-if="carouselItems.length > 0">
+      <v-col cols="12" md="8" class="mx-auto my-8">
+        <h2 class="text-center">
+          Pogledajte i druge "{{ product.edition }}" stripove:
+        </h2>
+        <v-carousel cycle hide-delimiter-background max-height="50vh">
+          <v-carousel-item v-for="item in carouselItems" :key="item._id">
+            <v-img
+              class="product-image"
+              @click="$router.go('/products/' + item._id)"
+              max-height="50vh"
+              :src="'http://localhost:3500/' + item.imageUrl"
+            >
+            </v-img>
+          </v-carousel-item>
+        </v-carousel>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
@@ -80,6 +95,7 @@ export default {
         price: "",
         imageUrl: "",
       },
+      carouselItems: [],
     };
   },
   methods: {
@@ -97,6 +113,10 @@ export default {
     this.product = this.productsStore.products.find((p) => {
       return p._id.toString() === id;
     });
+    this.carouselItems = this.productsStore.products
+      .filter((p) => p.edition === this.product.edition && p !== this.product)
+      .slice(0, 5);
+    console.log(this.carouselItems);
     // console.log(this.product);
   },
 };
