@@ -110,6 +110,7 @@ exports.products_update_product = (req, res, next) => {
 
 exports.products_get_product = (req, res, next) => {
   const id = req.params.productId;
+
   Product.findOne({ _id: id })
     .select("edition title issue description price imageUrl")
     .exec()

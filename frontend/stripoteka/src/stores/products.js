@@ -19,6 +19,14 @@ export const useProductsStore = defineStore("products", {
         return error.message;
       }
     },
+    async getProduct(id) {
+      try {
+        const res = await axios.get(config.API_URL + "/api/v1/products/" + id);
+        return res.data.product;
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
     async createProduct(formData) {
       const userStore = useUserStore();
       const headers = {

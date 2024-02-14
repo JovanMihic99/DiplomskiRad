@@ -63,7 +63,6 @@
               max-height="50vh"
               :src="API_URL + '/' + item.imageUrl"
             >
-              {{ "/products/" + item._id }}
             </v-img>
           </v-carousel-item>
         </v-carousel>
@@ -74,7 +73,9 @@
 <script>
 import { useProductsStore } from "@/stores/products";
 import { useCartStore } from "@/stores/cart";
+
 import config from "../../config";
+
 export default {
   setup() {
     return {
@@ -97,37 +98,39 @@ export default {
         price: "",
         imageUrl: "",
       },
+
       carouselItems: [],
     };
+  },
+  computed: {
+    id() {
+      return this.$route.params.id;
+    },
   },
 
   methods: {
     async addToCart() {
-      const id = this.$route.params.id;
       this.isLoading = true;
-      await this.cartStore.addToCart(id, this.quantity);
+      await this.cartStore.addToCart(this.id, this.quantity);
       this.isLoading = false;
     },
-    goToProduct(id) {
-      // console.log("products/" + id);
-      console.log(id);
-      // const path = "/products/" + id;
-      // console.log(path);
-      this.$router.push({ name: "pdp", params: { id: id } });
+    async goToProduct(id) {
+      await this.fetchProductData(id);
+      this.$router.push(id);
+    },
+    async fetchProductData(id) {
+      this.product = await this.productsStore.getProduct(id);
+
+      await this.productsStore.fetchProducts();
+      this.carouselItems = this.productsStore.products
+        .filter((p) => p.edition === this.product.edition && p._id !== id)
+        .slice(0, 3);
     },
   },
   async mounted() {
-    const id = this.$route.params.id;
-
-    await this.productsStore.fetchProducts();
-    this.product = this.productsStore.products.find((p) => {
-      return p._id.toString() === id;
-    });
-    this.carouselItems = this.productsStore.products
-      .filter((p) => p.edition === this.product.edition && p !== this.product)
-      .slice(0, 5);
-    console.log(this.carouselItems);
     // console.log(this.product);
+
+    await this.fetchProductData(this.id);
   },
 };
 </script>
