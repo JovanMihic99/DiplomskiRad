@@ -118,7 +118,7 @@ export default {
   },
   async mounted() {
     const id = this.$route.params.id;
-    // console.log(id);
+
     await this.productsStore.fetchProducts();
     this.product = this.productsStore.products.find((p) => {
       return p._id.toString() === id;
