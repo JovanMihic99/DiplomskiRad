@@ -5,7 +5,8 @@
       @closedDialog="openDialog = false"
       teleport="body"
     >
-      <v-img width="80vw" :src="API_URL + '/' + product.imageUrl"> </v-img>
+      <v-img height="80vh" width="auto" :src="API_URL + '/' + product.imageUrl">
+      </v-img>
     </base-dialog>
     <v-row class="px-10 my-15">
       <v-col md="5" cols="12">
@@ -35,6 +36,7 @@
               size="large"
               @click="addToCart"
               :loading="isLoading"
+              :disabled="!userStore.token"
             >
               Dodaj u korpu
             </v-btn>
@@ -52,18 +54,31 @@
     </v-row>
     <v-row v-if="carouselItems.length > 0">
       <v-col cols="12" md="8" class="mx-auto my-8">
-        <h2 class="text-center">
-          Pogledajte i druge "{{ product.edition }}" stripove:
-        </h2>
-        <v-carousel cycle hide-delimiter-background max-height="50vh">
-          <v-carousel-item v-for="item in carouselItems" :key="item._id">
-            <v-img
-              class="product-image"
-              @click="goToProduct(item._id)"
-              max-height="50vh"
-              :src="API_URL + '/' + item.imageUrl"
-            >
-            </v-img>
+        <h2 class="text-center">Pogledajte još sličnih stripova:</h2>
+        <v-carousel
+          cycle
+          hide-delimiter-background
+          max-height="50vh"
+          style="height: auto"
+        >
+          <v-carousel-item v-for="page in carouselItems" :key="page">
+            <v-row class="mx-auto">
+              <v-col
+                class="mx-auto"
+                cols="3"
+                v-for="product in page"
+                :key="product._id"
+              >
+                <router-link :to="{ name: 'pdp', params: { id: product._id } }">
+                  <v-img
+                    class="product-image"
+                    style="width: 30vw; height: auto"
+                    :src="API_URL + '/' + product.imageUrl"
+                  >
+                  </v-img>
+                </router-link>
+              </v-col>
+            </v-row>
           </v-carousel-item>
         </v-carousel>
       </v-col>
@@ -73,6 +88,7 @@
 <script>
 import { useProductsStore } from "@/stores/products";
 import { useCartStore } from "@/stores/cart";
+import { useUserStore } from "@/stores/user";
 
 import config from "../../config";
 
@@ -81,6 +97,7 @@ export default {
     return {
       productsStore: useProductsStore(),
       cartStore: useCartStore(),
+      userStore: useUserStore(),
     };
   },
 
@@ -99,13 +116,10 @@ export default {
         imageUrl: "",
       },
 
+      similarProducts: [],
       carouselItems: [],
+      id: this.$route.params.id,
     };
-  },
-  computed: {
-    id() {
-      return this.$route.params.id;
-    },
   },
 
   methods: {
@@ -114,22 +128,40 @@ export default {
       await this.cartStore.addToCart(this.id, this.quantity);
       this.isLoading = false;
     },
-    async goToProduct(id) {
-      await this.fetchProductData(id);
-      this.$router.push(id);
-    },
+    // async goToProduct(id) {
+    //   // this.id = id;
+    //   await this.fetchProductData(id);
+    //   this.$forceUpdate();
+    //   // this.$router.push(id);
+    // },
     async fetchProductData(id) {
+      this.id = id;
+      await this.productsStore.fetchProducts();
       this.product = await this.productsStore.getProduct(id);
 
-      await this.productsStore.fetchProducts();
-      this.carouselItems = this.productsStore.products
+      this.similarProducts = this.productsStore.products
         .filter((p) => p.edition === this.product.edition && p._id !== id)
-        .slice(0, 3);
+        .slice(0, 9);
+
+      if (this.carouselItems.length >= 3) {
+        return;
+      }
+      this.similarProducts = this.similarProducts.concat(
+        this.productsStore.products
+          .sort(() => Math.random() - 0.5)
+          .filter((p) => p.edition !== this.product.edition)
+          .slice(0, 9 - this.similarProducts.length)
+      );
+      while (this.similarProducts.length > 0) {
+        this.carouselItems.push(this.similarProducts.splice(0, 3));
+      }
+      console.log(this.carouselItems);
     },
   },
   async mounted() {
-    // console.log(this.product);
-
+    await this.fetchProductData(this.id);
+  },
+  async updated() {
     await this.fetchProductData(this.id);
   },
 };

@@ -8,7 +8,7 @@
     >
       <v-list v-if="isLoggedIn">
         <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/men/82.jpg"
+          :prepend-avatar="'https://ui-avatars.com/api/?name=' + userStore.name"
           :title="userStore.name"
           :subtitle="userStore.email"
           :append-icon="isAdmin ? 'mdi-security' : null"
@@ -79,7 +79,7 @@
     <v-app-bar :elevation="2" app>
       <v-list v-if="isLoggedIn">
         <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/men/82.jpg"
+          :prepend-avatar="'https://ui-avatars.com/api/?name=' + userStore.name"
           :title="userStore.name"
           :subtitle="userStore.email"
           :append-icon="isAdmin ? 'mdi-security' : null"

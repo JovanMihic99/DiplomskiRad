@@ -28,7 +28,19 @@
     </v-row>
 
     <v-row class="mx-3 my-2" justify="center">
-      <v-col v-for="p in filteredProducts" :key="p._id" lg="4" md="6" sm="12">
+      <v-progress-circular
+        v-if="isLoading"
+        indeterminate
+        :size="100"
+      ></v-progress-circular>
+      <v-col
+        v-else
+        v-for="p in filteredProducts"
+        :key="p._id"
+        lg="4"
+        md="6"
+        sm="12"
+      >
         <product-item
           :_id="p._id"
           :edition="p.edition"
@@ -75,6 +87,7 @@ export default {
       selectedSorting: "",
       editionFilters: [],
       filteredProducts: null,
+      isLoading: false,
     };
   },
   methods: {
@@ -113,12 +126,10 @@ export default {
     },
   },
   async mounted() {
-    // console.log(this.$refs.selectEdition);
-    // console.log(this.edition);
-    // console.log(this.filteredProducts);
-
     await this.productsStore.fetchProducts();
+    this.isLoading = true;
     this.filteredProducts = this.products;
+    this.isLoading = false;
   },
 };
 </script>

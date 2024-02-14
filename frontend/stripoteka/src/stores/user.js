@@ -15,6 +15,9 @@ export const useUserStore = defineStore("user", {
   },
   actions: {
     async login(email, password) {
+      if (this.token) {
+        this.logout();
+      }
       try {
         const res = await axios.post(config.API_URL + "/api/v1/user/login", {
           email,
