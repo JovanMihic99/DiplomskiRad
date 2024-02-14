@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center text-h3 mb-8">The Cart</h1>
+    <h1 class="text-center text-h3 mb-8">Moja Korpa</h1>
     <div v-if="!cartStore.items.length">
       <h2 class="text-center">Your cart is empty!</h2>
       <p class="text-center mt-3">
@@ -8,6 +8,28 @@
         some items to your cart!
       </p>
     </div>
+
+    <v-card
+      v-else
+      class="ma-3 pa-0"
+      elevation="3"
+      v-for="item in cartStore.items"
+      :key="item._id"
+      color="grey-darken-3"
+    >
+      <cart-item
+        class="mx-auto"
+        :title="item.edition + ' - ' + item.title + ' br. ' + item.issue"
+        :imageUrl="API_URL + '/' + item.imageUrl"
+        :price="item.price"
+        :quantity="item.quantity"
+        :_id="item._id"
+        @cartChanged="refreshCart"
+      ></cart-item>
+    </v-card>
+    <v-row cols="12" v-if="isLoading">
+      <v-progress-linear color="primary" indeterminate></v-progress-linear>
+    </v-row>
     <v-row v-else class="px-15 my-10">
       <v-col md="6" cols="12">
         <p class="text-h6 font-weight-bold">
@@ -15,7 +37,7 @@
           {{ cartStore.totalPrice }}rsd.
         </p>
       </v-col>
-      <v-col md="6" cols="12" align="right">
+      <v-col md="6" cols="12" align="center">
         <v-btn
           color="green"
           prependIcon="mdi-cart"
@@ -25,27 +47,11 @@
         </v-btn>
       </v-col>
     </v-row>
-
-    <v-card
-      class="ma-3 px-7 py-2"
-      elevation="3"
-      v-for="item in cartStore.items"
-      :key="item._id"
-      color="blue-darken-3"
-    >
-      <cart-item
-        :title="item.edition + ' ' + item.title + ' (#' + item.issue + ')'"
-        imageUrl="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        :price="item.price"
-        :quantity="item.quantity"
-        :_id="item._id"
-        @cartChanged="refreshCart"
-      ></cart-item>
-    </v-card>
     <!-- <v-data-table :items="cartStore.items"></v-data-table> -->
   </div>
 </template>
 <script>
+import config from "../../config";
 import { useCartStore } from "@/stores/cart";
 import CartItem from "./CartItem.vue";
 export default {
@@ -54,6 +60,12 @@ export default {
     const cartStore = useCartStore();
     return { cartStore };
   },
+  data() {
+    return {
+      API_URL: config.API_URL,
+      isLoading: false,
+    };
+  },
   computed: {
     title() {
       return this.productsStore();
@@ -61,7 +73,9 @@ export default {
   },
   methods: {
     async refreshCart() {
+      this.isLoading = true;
       await this.cartStore.getCart();
+      this.isLoading = false;
     },
   },
   async mounted() {
