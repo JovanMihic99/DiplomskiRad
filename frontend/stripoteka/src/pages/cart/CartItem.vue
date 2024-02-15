@@ -15,6 +15,7 @@
         </v-col>
         <v-col md="3" cols="6"
           ><v-text-field
+            size="small"
             class="mx-0 my-auto pt-3"
             v-model="qty"
             :disabled="!editMode"

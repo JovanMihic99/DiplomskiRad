@@ -28,6 +28,14 @@
         <b class="text-h5 font-weight-bold">Cena: {{ product.price }}rsd.</b>
         <br />
         <v-row>
+          <v-col md="3" cols="12" class="mt-5">
+            <v-text-field
+              type="number"
+              v-model="quantity"
+              label="Količina"
+              required
+            ></v-text-field>
+          </v-col>
           <v-col md="6" cols="12" class="my-auto">
             <v-btn
               class="w-100"
@@ -41,26 +49,13 @@
               Dodaj u korpu
             </v-btn>
           </v-col>
-          <v-col md="3" cols="12" class="mt-5">
-            <v-text-field
-              type="number"
-              v-model="quantity"
-              label="Količina"
-              required
-            ></v-text-field>
-          </v-col>
         </v-row>
       </v-col>
     </v-row>
     <v-row v-if="carouselItems.length > 0">
       <v-col cols="12" md="8" class="mx-auto my-8">
         <h2 class="text-center">Pogledajte još sličnih stripova:</h2>
-        <v-carousel
-          cycle
-          hide-delimiter-background
-          max-height="50vh"
-          style="height: auto"
-        >
+        <v-carousel cycle hide-delimiters="true" height="auto">
           <v-carousel-item v-for="page in carouselItems" :key="page">
             <v-row class="mx-auto">
               <v-col
