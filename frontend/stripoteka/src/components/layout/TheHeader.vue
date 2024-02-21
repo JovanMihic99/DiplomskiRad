@@ -45,7 +45,12 @@
           title="Homepage"
           value="homepage"
         ></v-list-item>
-
+        <!-- <v-badge right color="green">
+          <template v-slot:badge>
+            <span v-if="cartItemCount > 0">{{ cartItemCount }}</span>
+          </template>
+          
+        </v-badge> -->
         <v-list-item
           @click="$router.push('/user/cart')"
           prepend-icon="mdi-cart"
@@ -53,7 +58,6 @@
           value="cart"
         >
         </v-list-item>
-
         <v-list-item
           @click="$router.push('/user/account')"
           prepend-icon="mdi-account-circle"
@@ -108,11 +112,13 @@
 </template>
 <script>
 import { useUserStore } from "@/stores/user";
+import { useCartStore } from "@/stores/cart";
 import DropdownButton from "../UI/DropdownButton.vue";
 export default {
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const cartStore = useCartStore();
+    return { userStore, cartStore };
   },
   data() {
     return {
@@ -120,6 +126,13 @@ export default {
     };
   },
   computed: {
+    cartItemCount() {
+      let itemsCount = 0;
+      this.cartStore.items.forEach((item) => {
+        itemsCount += item.quantity;
+      });
+      return itemsCount;
+    },
     isLoggedIn() {
       if (this.userStore._id) return true;
       else return false;
@@ -131,6 +144,9 @@ export default {
         return false;
       }
     },
+  },
+  mounted() {
+    this.cartStore.getCart();
   },
   methods: {
     async logout() {

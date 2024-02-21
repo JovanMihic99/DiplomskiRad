@@ -1,26 +1,30 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="8" md="4" class="mx-auto">
+    <v-row class="px-5">
+      <v-col cols="12" md="5">
         <v-autocomplete
-          ref="selectEdition"
           label="Edicija"
           chips
           multiple
-          @update:menu="applyFilters"
           v-model="editionFilters"
           :items="editions"
         ></v-autocomplete>
+      </v-col>
+      <v-col cols="12" md="5">
         <v-select
-          ref="selectSorting"
           label="Sortiranje"
+          chips
           @update:menu="applySorting"
           :items="sortingOptions"
           single-line
           item-value="value"
           v-model="selectedSorting"
         >
+          <template slot:label> Sortiranje </template>
         </v-select>
+      </v-col>
+      <v-col cols="12" md="2">
+        <v-btn color="primary" @click="applyFilters"> Primeni filtere </v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -84,13 +88,16 @@ export default {
         { title: "Broj - Rastući", value: "issueAsc" },
         { title: "Broj - Opadajući", value: "issueDesc" },
       ],
-      selectedSorting: "",
+      selectedSorting: "priceAsc",
       editionFilters: [],
       filteredProducts: null,
       isLoading: false,
     };
   },
   methods: {
+    resetFilters() {
+      this.editionFilters;
+    },
     applyFilters() {
       this.filteredProducts = this.products.filter((p) => {
         return this.editionFilters.includes(p.edition);

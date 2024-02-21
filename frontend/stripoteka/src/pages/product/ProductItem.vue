@@ -4,7 +4,7 @@
       class="product-image"
       @click="productDetails(_id)"
       :src="API_URL + '/' + imageUrl"
-      height="auto"
+      height="50vh"
       fill-height
       cover
     ></v-img>

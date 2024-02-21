@@ -52,23 +52,25 @@
         </v-row>
       </v-col>
     </v-row>
+    {{ isMobileView }}
     <v-row v-if="carouselItems.length > 0">
       <v-col cols="12" md="8" class="mx-auto my-8">
         <h2 class="text-center">Pogledajte još sličnih stripova:</h2>
-        <v-carousel cycle hide-delimiters="true" height="auto">
-          <v-carousel-item v-for="page in carouselItems" :key="page">
+        <v-carousel cycle hide-delimiters height="auto">
+          <v-carousel-item v-for="page in carouselItems" :key="page" contain>
             <v-row class="mx-auto">
               <v-col
                 class="mx-auto"
-                cols="3"
+                cols="4"
                 v-for="product in page"
                 :key="product._id"
               >
                 <router-link :to="{ name: 'pdp', params: { id: product._id } }">
                   <v-img
                     class="product-image"
-                    style="width: 30vw; height: auto"
                     :src="API_URL + '/' + product.imageUrl"
+                    width="20vw"
+                    height="auto"
                   >
                   </v-img>
                 </router-link>
@@ -166,6 +168,6 @@ export default {
   cursor: pointer;
 }
 v-carousel {
-  height: 10vh;
+  /* height: 10vh; */
 }
 </style>
