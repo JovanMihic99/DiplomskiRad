@@ -11,7 +11,7 @@
         @productSaved="fetchProducts(), (isEditing = false)"
       ></edit-product-component>
     </base-dialog>
-    <h1 class="text-center">Proizvodi</h1>
+    <h1 class="text-center text-h3">Proizvodi</h1>
     <v-progress-linear
       v-if="isLoading"
       indeterminate

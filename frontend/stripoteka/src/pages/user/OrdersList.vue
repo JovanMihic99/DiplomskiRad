@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Moje porudžbine</h1>
+    <h1 class="text-h3 text-center">Moje porudžbine</h1>
 
     <v-progress-linear
       v-if="isLoading"
