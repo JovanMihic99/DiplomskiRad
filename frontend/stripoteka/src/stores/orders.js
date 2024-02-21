@@ -59,6 +59,32 @@ export const useOrdersStore = defineStore("orders", {
           headers,
         });
         this.orders = res.data.orders;
+
+        // turn each order date string into a date object
+        this.orders.forEach(
+          (o) => (o.orderDate = new Date(o.orderDate).toLocaleString()) // prettier-ignore
+        );
+        console.log(res.data);
+        console.log(this.orders);
+      } catch (error) {
+        return error.message;
+      }
+    },
+    async fetchUserOrders() {
+      const userStore = useUserStore();
+      const headers = {
+        Authorization: "Bearer " + userStore.token,
+      };
+      try {
+        const res = await axios.get(config.API_URL + "/api/v1/orders/", {
+          headers,
+        });
+        this.orders = res.data.orders;
+
+        // turn each order date string into a date object
+        this.orders.forEach(
+          (o) => (o.orderDate = new Date(o.orderDate).toLocaleString()) // prettier-ignore
+        );
         console.log(res.data);
         console.log(this.orders);
       } catch (error) {
