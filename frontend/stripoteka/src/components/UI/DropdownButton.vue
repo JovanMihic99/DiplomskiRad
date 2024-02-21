@@ -2,7 +2,12 @@
   <div class="">
     <v-menu open-on-click>
       <template v-slot:activator="{ props }">
-        <v-btn :append-icon="icon" @click="changeIcon" v-bind="props">
+        <v-btn
+          :append-icon="icon"
+          @click="changeIcon"
+          color="secondary"
+          v-bind="props"
+        >
           <slot>Dropdown</slot>
         </v-btn>
       </template>
