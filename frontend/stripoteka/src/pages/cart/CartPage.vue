@@ -2,10 +2,10 @@
   <div>
     <h1 class="text-center text-h3 mb-8">Moja Korpa</h1>
     <div v-if="!cartStore.items.length">
-      <h2 class="text-center">Your cart is empty!</h2>
+      <h2 class="text-center">Vaša korpa je prazna!</h2>
       <p class="text-center mt-3">
-        Visit our <router-link to="/products">Products</router-link> page to add
-        some items to your cart!
+        Posetite našu <router-link to="/products">početnu</router-link> stranicu
+        da bi ste dodali stripove u vašu korpu!
       </p>
     </div>
 
