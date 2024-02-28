@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const Address = require("./address");
 const Schema = mongoose.Schema;
 const addressSchema = mongoose.Schema({
   city: { type: String, required: true },

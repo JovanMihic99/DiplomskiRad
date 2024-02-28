@@ -106,6 +106,7 @@ router.beforeEach((to, from, next) => {
     next("/login");
   }
   if (to.meta.admin && userStore.role !== "admin") {
+    //admin required
     console.log("userStore.role: ", userStore);
     next("/");
   }

@@ -14,19 +14,6 @@ const userRoutes = require("./api/v1/routes/user");
 // CORS
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
-// CORS
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Accept, Authorization"
-//   );
-//   if (req.method === "OPTIONS") {
-//     res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE,GET");
-//     return res.status(200).json({});
-//   }
-//   next();
-// });
 
 // MongoDB Database
 mongoose.connect(

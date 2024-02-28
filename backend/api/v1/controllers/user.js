@@ -90,10 +90,7 @@ exports.user_login = (req, res, next) => {
             {
               _id: user._id,
             },
-            process.env.JWT_KEY,
-            {
-              expiresIn: "1d",
-            }
+            process.env.JWT_KEY
           );
           return res.status(200).json({
             message: "Authentication successful",

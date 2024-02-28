@@ -19,7 +19,6 @@ exports.products_get_all = async (req, res, next) => {
       };
       res.status(200).json({
         message: "Fetched products",
-
         response,
       });
     })

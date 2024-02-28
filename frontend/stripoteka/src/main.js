@@ -32,7 +32,6 @@ try {
 
 app.component("the-header", TheHeader);
 app.component("the-footer", TheFooter);
-
 app.component("dropdown-button", DropdownButton);
 app.component("base-dialog", BaseDialog);
 
