@@ -18,65 +18,41 @@
       <v-divider></v-divider>
 
       <v-list density="compact" nav class="listbox">
-        <v-list-item prepend-icon="mdi-security" v-if="isAdmin">
-          <dropdown-button
-            class="w-100"
-            v-if="isAdmin"
-            :items="[
-              { title: 'Stripovi', to: '/admin/products' },
-              { title: 'Dodaj Strip', to: '/admin/add-product' },
-              { title: 'Porudžbine', to: '/admin/orders' },
-            ]"
-            >Admin Panel</dropdown-button
-          >
-        </v-list-item>
-        <v-list-item prepend-icon="mdi-bookshelf">
-          <dropdown-button
-            :items="[
-              { title: 'cart', to: '/user/cart' },
-              { title: 'orders', to: '/user/orders' },
-            ]"
-            >Stripovi
-          </dropdown-button>
-        </v-list-item>
+        <dropdown-button
+          class="w-100 mx-auto"
+          color="secondary"
+          v-if="isAdmin"
+          :items="[
+            { title: 'Stripovi', to: '/admin/products' },
+            { title: 'Dodaj Strip', to: '/admin/add-product' },
+            { title: 'Porudžbine', to: '/admin/orders' },
+          ]"
+          >Admin Panel
+        </dropdown-button>
         <v-list-item
           @click="$router.push('/')"
           prepend-icon="mdi-home"
-          title="Homepage"
-          value="homepage"
+          title="Početna"
         ></v-list-item>
-        <!-- <v-badge right color="green">
-          <template v-slot:badge>
-            <span v-if="cartItemCount > 0">{{ cartItemCount }}</span>
-          </template>
-          
-        </v-badge> -->
         <v-list-item
-          @click="$router.push('/user/cart')"
-          prepend-icon="mdi-cart"
-          title="My Cart"
-          value="cart"
+          @click="$router.push('/user/orders')"
+          prepend-icon="mdi-truck-delivery-outline"
+          title="Moje porudžbine"
         >
         </v-list-item>
         <v-list-item
-          @click="$router.push('/user/account')"
-          prepend-icon="mdi-account-circle"
-          title="My Account"
-          value="account"
-        ></v-list-item>
-        <v-list-item
-          @click="$router.push('/wishlist')"
-          prepend-icon="mdi-star"
-          title="Wishlist"
-          value="wishlist"
-        ></v-list-item>
+          @click="$router.push('/user/cart')"
+          prepend-icon="mdi-cart"
+          title="Moja korpa"
+        >
+        </v-list-item>
+
         <v-spacer></v-spacer>
         <v-list-item
           @click="logout"
           class="btn-logout"
           prepend-icon="mdi-logout"
-          title="Log Out"
-          value="logout"
+          title="Izloguj se"
         ></v-list-item>
       </v-list>
     </v-navigation-drawer>

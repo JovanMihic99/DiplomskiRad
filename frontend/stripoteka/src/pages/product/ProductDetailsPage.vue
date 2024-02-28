@@ -19,7 +19,7 @@
         </v-img>
       </v-col>
       <v-col md="7" cols="12">
-        <h1 class="pb-10">
+        <h1 class="pb-10 text-h3 text-center">
           {{ product.edition }} #{{ product.issue }} "{{ product.title }}"
         </h1>
 

@@ -60,6 +60,7 @@ exports.orders_create_order = (req, res, next) => {
 
 exports.orders_get_user_orders = async (req, res, next) => {
   const userId = req.user._id;
+  // console.log(req.user);
   try {
     // populate orders
     let orders = await Order.find({ userId: userId }).populate(
@@ -77,13 +78,13 @@ exports.orders_get_user_orders = async (req, res, next) => {
 
     orders = orders.map((order) => {
       const transformedProducts = order.products.map((p) => ({
-        _id: p.productId._id,
-        edition: p.productId.edition,
-        title: p.productId.title,
-        issue: p.productId.issue,
-        description: p.productId.description,
-        price: p.productId.price,
-        imageUrl: p.productId.imageUrl,
+        _id: p._id,
+        edition: p.edition,
+        title: p.title,
+        issue: p.issue,
+        description: p.description,
+        price: p.price,
+        imageUrl: p.imageUrl,
         quantity: p.quantity,
       }));
       const returnOrder = { ...order.toObject() };

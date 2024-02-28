@@ -1,23 +1,52 @@
 <template>
   <div>
-    <h1>My orders</h1>
+    <h1 class="text-h3 text-center">Moje porudžbine</h1>
+
+    <v-progress-linear
+      v-if="isLoading"
+      indeterminate
+      color="cyan"
+    ></v-progress-linear>
+    <v-data-table
+      :headers="headers"
+      :items="orders"
+      item-key="_id"
+      class="elevation-1 px-2"
+    >
+      <template v-slot:[`item.status`]="{ item }">
+        <p v-if="item.isShipped" class="text-green">Poslato</p>
+        <p v-else class="text-red">Nije poslato</p>
+      </template>
+    </v-data-table>
   </div>
-  <v-list>
-    <v-list-item v-for="order in ordersStore.orders" :key="order._id">
-      {{ order.shippingAddress }}
-    </v-list-item>
-  </v-list>
 </template>
 <script>
 import { useOrdersStore } from "@/stores/orders";
 export default {
-  async mounted() {
-    await this.ordersStore.fetchOrders();
+  async created() {
+    this.isLoading = true;
+    await this.ordersStore.fetchUserOrders();
+    this.orders = this.ordersStore.orders;
+    this.isLoading = false;
   },
-
   setup() {
     return {
       ordersStore: useOrdersStore(),
+    };
+  },
+  data() {
+    return {
+      isLoading: false,
+      orders: [],
+      headers: [
+        { title: "Ime", value: "firstName" },
+        { title: "Grad", value: "shippingAddress.city" },
+        { title: "Ulica", value: "shippingAddress.street" },
+
+        { title: "Datum narudžbine", value: "orderDate" },
+
+        { title: "Status", value: "status" },
+      ],
     };
   },
 };

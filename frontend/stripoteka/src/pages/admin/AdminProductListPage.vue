@@ -11,7 +11,7 @@
         @productSaved="fetchProducts(), (isEditing = false)"
       ></edit-product-component>
     </base-dialog>
-    <h1 class="text-center">Proizvodi</h1>
+    <h1 class="text-center text-h3">Proizvodi</h1>
     <v-progress-linear
       v-if="isLoading"
       indeterminate
@@ -62,13 +62,13 @@ export default {
       itemData: {},
       headers: [
         { title: "ID", value: "_id" },
-        { title: "Edition", value: "edition" },
-        { title: "Title", value: "title" },
-        { title: "Issue", value: "issue" },
-        { title: "Price", value: "price" },
-        { title: "Description", value: "description" },
-        { title: "Edit", value: "edit" },
-        { title: "Delete", value: "delete" },
+        { title: "Edicija", value: "edition" },
+        { title: "Naslov", value: "title" },
+        { title: "Broj", value: "issue" },
+        { title: "Cena", value: "price" },
+        { title: "Opis", value: "description" },
+        { title: "Izmeni", value: "edit" },
+        { title: "Obriši", value: "delete" },
       ],
     };
   },
