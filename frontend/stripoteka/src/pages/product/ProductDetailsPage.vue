@@ -52,7 +52,6 @@
         </v-row>
       </v-col>
     </v-row>
-    {{ isMobileView }}
     <v-row v-if="carouselItems.length > 0">
       <v-col cols="12" md="8" class="mx-auto my-8">
         <h2 class="text-center">Pogledajte još sličnih stripova:</h2>
@@ -166,8 +165,5 @@ export default {
 <style scoped>
 .product-image {
   cursor: pointer;
-}
-v-carousel {
-  /* height: 10vh; */
 }
 </style>
