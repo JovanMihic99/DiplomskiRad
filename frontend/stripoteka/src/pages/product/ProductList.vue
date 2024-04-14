@@ -14,7 +14,9 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-btn class="w-100" color="primary" type="submit">Pretraži</v-btn>
+          <v-btn class="w-100 form-btn" color="primary" type="submit"
+            >Pretraži</v-btn
+          >
         </v-col>
 
         <v-col cols="12" md="4">
@@ -40,7 +42,7 @@
           </v-select>
         </v-col>
         <v-col cols="12" md="4">
-          <v-btn class="w-100" color="green" @click="resetFilters">
+          <v-btn class="w-100 form-btn" color="green" @click="resetFilters">
             Resetuj filtere
           </v-btn>
         </v-col>
@@ -197,3 +199,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.form-btn {
+  top: 0.5rem;
+}
+</style>
