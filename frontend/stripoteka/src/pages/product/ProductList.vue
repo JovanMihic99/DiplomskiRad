@@ -1,6 +1,20 @@
 <template>
   <div>
     <v-row class="px-5">
+      <v-col cols="12" md="8">
+        <v-text-field
+          prepend-inner-icon="mdi-magnify"
+          type="text"
+          v-model="searchText"
+          label="Pretraga"
+          required
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-btn class="w-100" color="primary" @click="searchProducts">
+          Pretraži</v-btn
+        >
+      </v-col>
       <v-col cols="12" md="5">
         <v-autocomplete
           label="Edicija"
@@ -82,6 +96,7 @@ export default {
   },
   data() {
     return {
+      searchText: "",
       sortingOptions: [
         { title: "Cena - Rastuća", value: "priceAsc" },
         { title: "Cena - Opadajuća", value: "priceDesc" },
@@ -97,6 +112,13 @@ export default {
   methods: {
     resetFilters() {
       this.editionFilters;
+    },
+    async searchProducts() {
+      this.isLoading = true;
+      const res = await this.productsStore.findProduct(this.searchText);
+      this.filteredProducts = res.data.products;
+      // console.log(this.filteredProducts);
+      this.isLoading = false;
     },
     applyFilters() {
       this.filteredProducts = this.products.filter((p) => {

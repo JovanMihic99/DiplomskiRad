@@ -72,12 +72,8 @@ exports.products_update_product = (req, res, next) => {
     issue: req.body.issue,
     description: req.body.description,
     price: req.body.price,
-    // imageUrl: req.file.path,
   });
 
-  // for (const op of req.body) {
-  //   updateOps[op.propName] = op.value;
-  // }
   Product.findOne({ _id: id })
     .exec()
     .then((result) => {
@@ -101,15 +97,11 @@ exports.products_update_product = (req, res, next) => {
         .catch((err) => {
           res.status(500).json({ error: err });
         });
-      // if (req.file) {
-      //   result.imageUrl = req.file.path;
-      // }
     });
 };
 
 exports.products_get_product = (req, res, next) => {
   const id = req.params.productId;
-
   Product.findOne({ _id: id })
     .select("edition title issue description price imageUrl")
     .exec()
@@ -141,6 +133,28 @@ exports.products_delete_product = (req, res, next) => {
         message: "Delted product " + id,
         _id: id,
         result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+exports.products_search_product = (req, res, next) => {
+  const key = req.params.key;
+  Product.find({
+    $or: [{ title: { $regex: key, $options: "i" } }],
+  })
+    .select("edition title issue description price imageUrl")
+    .exec()
+    .then((result) => {
+      res.status(200).json({
+        message: "Found " + result.length + " products",
+        count: result.length,
+        products: result,
       });
     })
     .catch((err) => {

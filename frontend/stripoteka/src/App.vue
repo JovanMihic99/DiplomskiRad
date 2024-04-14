@@ -25,13 +25,3 @@ export default {
   }),
 };
 </script>
-
-<style>
-/* .app {
-  background: linear-gradient(
-    to bottom,
-    rgb(248, 17, 17) 0%,
-    rgb(240, 255, 26) 100%
-  );
-} */
-</style>

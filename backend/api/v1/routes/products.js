@@ -65,6 +65,8 @@ router.delete(
   ProductsController.products_delete_product
 );
 
+router.get("/search/:key", ProductsController.products_search_product);
+
 // router.get(
 //   "/edition",
 //   authenticate,

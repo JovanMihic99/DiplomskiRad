@@ -68,6 +68,16 @@ export const useProductsStore = defineStore("products", {
         console.log(error);
       }
     },
+    async findProduct(key) {
+      try {
+        const res = await axios.get(
+          config.API_URL + "/api/v1/products/search/" + key
+        );
+        return res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   getters: {},
 });
