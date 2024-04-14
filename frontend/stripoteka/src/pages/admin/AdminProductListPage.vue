@@ -66,7 +66,7 @@ export default {
         { title: "Naslov", value: "title" },
         { title: "Broj", value: "issue" },
         { title: "Cena", value: "price" },
-        { title: "Opis", value: "description" },
+        { title: "Opis", value: "shortDescription" },
         { title: "Izmeni", value: "edit" },
         { title: "Obriši", value: "delete" },
       ],
@@ -83,7 +83,7 @@ export default {
         await this.productsStore.fetchProducts();
         this.items = this.productsStore.products;
         this.items.forEach((item) => {
-          item.description = item.description.slice(0, 50) + "...";
+          item.shortDescription = item.description.slice(0, 50) + "...";
           console.log(item);
         });
       } catch (error) {
