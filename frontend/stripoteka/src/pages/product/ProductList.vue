@@ -59,6 +59,7 @@
         v-else
         v-for="p in filteredProducts"
         :key="p._id"
+        xl="3"
         lg="4"
         md="6"
         sm="12"
@@ -135,6 +136,7 @@ export default {
 
       await this.productsStore.findProduct(this.searchText);
       this.filteredProducts = this.products;
+      console.log(this.products);
 
       this.isLoading = false;
       this.applyFilters();

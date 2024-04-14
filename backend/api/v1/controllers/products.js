@@ -146,8 +146,11 @@ exports.products_delete_product = (req, res, next) => {
 exports.products_search_product = (req, res, next) => {
   const key = req.params.key;
   Product.find({
-    $or: [{ title: { $regex: key, $options: "i" } }],
-    $or: [{ issue: { $regex: key } }],
+    $or: [
+      { title: { $regex: key, $options: "i" } },
+      { issue: { $regex: key } },
+    ],
+    // $or: [{ issue: { $regex: key } }],
   })
     .select("edition title issue description price imageUrl")
     .exec()
