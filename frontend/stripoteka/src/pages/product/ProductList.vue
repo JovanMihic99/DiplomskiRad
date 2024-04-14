@@ -9,6 +9,7 @@
             v-model="searchText"
             :rules="searchRules"
             label="Pretraga"
+            placeholder="Pretrazite pomocu naslova ili broja izdanja"
             required
           ></v-text-field>
         </v-col>
@@ -16,30 +17,32 @@
           <v-btn class="w-100" color="primary" type="submit">Pretraži</v-btn>
         </v-col>
 
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="4">
           <v-autocomplete
             label="Edicija"
+            clearable="true"
             chips
             multiple
             v-model="editionFilters"
+            @update:menu="applyFilters"
             :items="editions"
           ></v-autocomplete>
         </v-col>
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="4">
           <v-select
             label="Sortiranje"
             chips
             @update:menu="applySorting"
             :items="sortingOptions"
-            single-line
             item-value="value"
             v-model="selectedSorting"
           >
-            <template slot:label> Sortiranje </template>
           </v-select>
         </v-col>
-        <v-col cols="12" md="2">
-          <v-btn color="primary" @click="applyFilters"> Primeni filtere </v-btn>
+        <v-col cols="12" md="4">
+          <v-btn class="w-100" color="green" @click="resetFilters">
+            Resetuj filtere
+          </v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -69,7 +72,7 @@
         >
         </product-item>
       </v-col>
-      <p v-if="products.length == 0">Nije pronađen nijedan strip!</p>
+      <p v-if="!products.length">Nije pronađen nijedan strip!</p>
     </v-row>
   </div>
 </template>
@@ -98,12 +101,14 @@ export default {
     return {
       searchText: "",
       sortingOptions: [
+        { title: "Naslov - Rastući", value: "titleAsc" },
+        { title: "Naslov - Opadajući", value: "titleDesc" },
         { title: "Cena - Rastuća", value: "priceAsc" },
         { title: "Cena - Opadajuća", value: "priceDesc" },
         { title: "Broj - Rastući", value: "issueAsc" },
         { title: "Broj - Opadajući", value: "issueDesc" },
       ],
-      selectedSorting: "priceAsc",
+      selectedSorting: "titleAsc",
       searchRules: [(v) => v.length > 0 || "Pojam za pretragu je obavezan!"],
       editionFilters: [],
       filteredProducts: null,
@@ -112,7 +117,12 @@ export default {
   },
   methods: {
     resetFilters() {
-      this.editionFilters;
+      // this.selectedSorting = "priceAsc";
+      // this.searchText = "";
+      // this.editionFilters = [];
+      // await this.productsStore.fetchProducts();
+      // this.applyFilters();
+      this.$router.go();
     },
     async searchProducts() {
       const validation = await this.$refs.form.validate();
@@ -125,14 +135,30 @@ export default {
       this.filteredProducts = this.products;
 
       this.isLoading = false;
+      this.applyFilters();
+      this.applySorting();
     },
     applyFilters() {
-      this.filteredProducts = this.products.filter((p) => {
-        return this.editionFilters.includes(p.edition);
-      });
+      if (this.editionFilters.length) {
+        this.filteredProducts = this.products.filter((p) => {
+          return this.editionFilters.includes(p.edition);
+        });
+      }
     },
     applySorting() {
       switch (this.selectedSorting) {
+        case "titleAsc": {
+          this.filteredProducts = this.filteredProducts.sort((a, b) => {
+            return a.title.localeCompare(b.title);
+          });
+          break;
+        }
+        case "titleDesc": {
+          this.filteredProducts = this.filteredProducts.sort((a, b) => {
+            return b.title.localeCompare(a.title);
+          });
+          break;
+        }
         case "priceAsc": {
           this.filteredProducts = this.filteredProducts.sort((a, b) => {
             return parseFloat(a.price) - parseFloat(b.price);
@@ -161,9 +187,12 @@ export default {
     },
   },
   async mounted() {
-    await this.productsStore.fetchProducts();
     this.isLoading = true;
-    this.filteredProducts = this.products;
+    await this.productsStore.fetchProducts();
+    this.editionFilters = this.editions;
+    // this.filteredProducts = this.products;
+    this.applyFilters();
+    this.applySorting();
     this.isLoading = false;
   },
 };
