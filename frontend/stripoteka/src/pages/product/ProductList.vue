@@ -1,49 +1,48 @@
 <template>
   <div>
-    <v-row class="px-5">
-      <v-col cols="12" md="8">
-        <v-text-field
-          prepend-inner-icon="mdi-magnify"
-          type="text"
-          v-model="searchText"
-          label="Pretraga"
-          required
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" md="4">
-        <v-btn class="w-100" color="primary" @click="searchProducts">
-          Pretraži</v-btn
-        >
-      </v-col>
-      <v-col cols="12" md="5">
-        <v-autocomplete
-          label="Edicija"
-          chips
-          multiple
-          v-model="editionFilters"
-          :items="editions"
-        ></v-autocomplete>
-      </v-col>
-      <v-col cols="12" md="5">
-        <v-select
-          label="Sortiranje"
-          chips
-          @update:menu="applySorting"
-          :items="sortingOptions"
-          single-line
-          item-value="value"
-          v-model="selectedSorting"
-        >
-          <template slot:label> Sortiranje </template>
-        </v-select>
-      </v-col>
-      <v-col cols="12" md="2">
-        <v-btn color="primary" @click="applyFilters"> Primeni filtere </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" md="4" class="mx-auto mt-8"> </v-col>
-    </v-row>
+    <v-form @submit.prevent="searchProducts" ref="form">
+      <v-row class="px-5" cols="12">
+        <v-col cols="12" md="8">
+          <v-text-field
+            prepend-inner-icon="mdi-magnify"
+            type="text"
+            v-model="searchText"
+            :rules="searchRules"
+            label="Pretraga"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-btn class="w-100" color="primary" type="submit">Pretraži</v-btn>
+        </v-col>
+
+        <v-col cols="12" md="5">
+          <v-autocomplete
+            label="Edicija"
+            chips
+            multiple
+            v-model="editionFilters"
+            :items="editions"
+          ></v-autocomplete>
+        </v-col>
+        <v-col cols="12" md="5">
+          <v-select
+            label="Sortiranje"
+            chips
+            @update:menu="applySorting"
+            :items="sortingOptions"
+            single-line
+            item-value="value"
+            v-model="selectedSorting"
+          >
+            <template slot:label> Sortiranje </template>
+          </v-select>
+        </v-col>
+        <v-col cols="12" md="2">
+          <v-btn color="primary" @click="applyFilters"> Primeni filtere </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
 
     <v-row class="mx-3 my-2" justify="center">
       <v-progress-circular
@@ -70,6 +69,7 @@
         >
         </product-item>
       </v-col>
+      <p v-if="products.length == 0">Nije pronađen nijedan strip!</p>
     </v-row>
   </div>
 </template>
@@ -104,6 +104,7 @@ export default {
         { title: "Broj - Opadajući", value: "issueDesc" },
       ],
       selectedSorting: "priceAsc",
+      searchRules: [(v) => v.length > 0 || "Pojam za pretragu je obavezan!"],
       editionFilters: [],
       filteredProducts: null,
       isLoading: false,
@@ -114,10 +115,15 @@ export default {
       this.editionFilters;
     },
     async searchProducts() {
+      const validation = await this.$refs.form.validate();
+      // console.log(validation);
+      if (!validation.valid) return;
+
       this.isLoading = true;
-      const res = await this.productsStore.findProduct(this.searchText);
-      this.filteredProducts = res.data.products;
-      // console.log(this.filteredProducts);
+
+      await this.productsStore.findProduct(this.searchText);
+      this.filteredProducts = this.products;
+
       this.isLoading = false;
     },
     applyFilters() {

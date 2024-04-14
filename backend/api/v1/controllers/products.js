@@ -130,7 +130,7 @@ exports.products_delete_product = (req, res, next) => {
     .exec()
     .then((result) => {
       res.status(200).json({
-        message: "Delted product " + id,
+        message: "Deleted product " + id,
         _id: id,
         result,
       });
