@@ -71,4 +71,8 @@ export default {
 .product-image {
   cursor: pointer;
 }
+.v-card:hover {
+  transition: all 0.3s;
+  transform: scale(1.05);
+}
 </style>

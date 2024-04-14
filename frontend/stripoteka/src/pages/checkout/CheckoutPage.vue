@@ -171,7 +171,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="8" class="ma-auto">
+        <v-col cols="12" md="8" class="ma-auto text-center">
           <v-list>
             <v-list-item v-for="item in cartStore.items" :key="item._id">
               {{ item.edition }} {{ item.title }} (#{{ item.issue }} )

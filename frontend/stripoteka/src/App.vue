@@ -25,3 +25,9 @@ export default {
   }),
 };
 </script>
+<style>
+.v-btn:hover {
+  transition: all 0.2s;
+  transform: scale(1.02);
+}
+</style>

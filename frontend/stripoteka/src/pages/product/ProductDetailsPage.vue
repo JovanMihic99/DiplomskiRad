@@ -53,7 +53,7 @@
       </v-col>
     </v-row>
     <v-row v-if="carouselItems.length > 0">
-      <v-col cols="12" md="8" class="mx-auto my-8">
+      <v-col cols="12" md="8" class="mx-auto">
         <h2 class="text-center">Pogledajte još sličnih stripova:</h2>
         <v-carousel cycle hide-delimiters height="auto">
           <v-carousel-item v-for="page in carouselItems" :key="page" contain>
@@ -165,5 +165,12 @@ export default {
 <style scoped>
 .product-image {
   cursor: pointer;
+}
+v-carousel-item {
+  margin-top: 2rem !important;
+}
+.product-image:hover {
+  transition: all 0.2s;
+  transform: scale(1.05);
 }
 </style>
