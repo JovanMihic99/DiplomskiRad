@@ -6,7 +6,9 @@
       v-if="isEditing"
       teleport="body"
     >
-      <v-btn @click="closeOrder()">Potvrdi</v-btn>
+      <v-btn class="mx-auto w-100" color="green-darken-3" @click="closeOrder()"
+        >Potvrdi</v-btn
+      >
     </base-dialog>
     <h1 class="text-center text-h3">Porudžbine</h1>
     <v-progress-linear
