@@ -91,6 +91,41 @@ export const useOrdersStore = defineStore("orders", {
         return error.message;
       }
     },
+    async closeOrder(id) {
+      const userStore = useUserStore();
+      const headers = {
+        Authorization: "Bearer " + userStore.token,
+      };
+      try {
+        const res = await axios.patch(
+          config.API_URL + "/api/v1/orders/" + id,
+          {},
+          {
+            headers,
+          }
+        );
+        console.log(res.data);
+      } catch (error) {
+        return error.message;
+      }
+    },
+    async deleteOrder(id) {
+      const userStore = useUserStore();
+      const headers = {
+        Authorization: "Bearer " + userStore.token,
+      };
+      try {
+        const res = await axios.delete(
+          config.API_URL + "/api/v1/orders/" + id,
+          {
+            headers,
+          }
+        );
+        console.log(res.data);
+      } catch (error) {
+        return error.message;
+      }
+    },
   },
   getters: {},
 });
