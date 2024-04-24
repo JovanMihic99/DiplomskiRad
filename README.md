@@ -10,11 +10,11 @@
 `$ npm install; cd ../..`
 
 ## Starting the backend application
-### Run this command in terminal: 
+### Run these commands in terminal: 
 `$ cd ./backend`
 `$ npm start`
 
 ## Starting the frontend application
-### Open another terminal and run this command:
+### Open another terminal and run these commands:
 `$ cd ./frontend/stripoteka`
 `$ npm start`
