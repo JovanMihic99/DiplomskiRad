@@ -5,6 +5,9 @@ Run these commands:
 `$ cd ./backend; nmp install; cd ..`
 `$ cd ../frontend/stripoteka; npm install; cd ../..`
 ## Starting the backend application
+Navigate to the /backend directory:
+`$ cd ./backend`
+`$ npm install`
 Run this command in terminal from project directory: 
 `$ cd ./backend; npm start`
 
