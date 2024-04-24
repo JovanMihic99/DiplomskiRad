@@ -18,3 +18,5 @@
 ### Open another terminal and run these commands:
 `$ cd ./frontend/stripoteka`
 `$ npm start`
+
+## Turn off your adblocker in web browser if there are any issues
