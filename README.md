@@ -1,6 +1,14 @@
 # MEVN Comicbookstore
 
 ## Initial setup
+Navigate to ./backend directory and run `npm install`:
+`$ cd ./backend`
+`$ npm install;cd ..`
+
+Navigate to ./frontend/stripoteka directory and run `npm install`:
+`$ cd ./frontend/stripoteka`
+`$ npm install`
+
 Run these commands:
 `$ cd ./backend;nmp install;cd ..`
 `$ cd ../frontend/stripoteka;npm install;cd ../..`
