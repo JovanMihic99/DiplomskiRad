@@ -10,7 +10,7 @@
 `$ npm install; cd ../..`
 
 ## Starting the backend application
-### Run this command in terminal from project directory: 
+### Run this command in terminal: 
 `$ cd ./backend`
 `$ npm start`
 
