@@ -5,7 +5,7 @@ Navigate to ./backend directory and run  these commands:
 `$ cd ./backend`
 `$ npm install;cd ..`
 
-Navigate to ./frontend/stripoteka directory and run `npm install`:
+Navigate to ./frontend/stripoteka directory and run these commands:
 `$ cd ./frontend/stripoteka`
 `$ npm install`
 
