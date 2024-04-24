@@ -2,8 +2,8 @@
 
 ## Initial setup
 Run these commands:
-$ cd ./backend; nmp install
-$ cd ./frontend/stripoteka; npm install
+`$ cd ./backend; nmp install
+$ cd ./frontend/stripoteka; npm install`
 
 ## Starting the backend application
 Run this command in terminal terminal from project directory: 
