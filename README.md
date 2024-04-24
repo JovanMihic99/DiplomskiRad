@@ -7,7 +7,7 @@ Navigate to ./backend directory and run  these commands:
 
 Navigate to ./frontend/stripoteka directory and run these commands:
 `$ cd ./frontend/stripoteka`
-`$ npm install; cd ..`
+`$ npm install; cd ../..`
 
 Run these commands:
 `$ cd ./backend;nmp install;cd ..`
