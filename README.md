@@ -1,7 +1,7 @@
 # MEVN Comicbookstore
 
 ## Initial setup
-Navigate to ./backend directory and run `npm install`:
+Navigate to ./backend directory and run  these commands:
 `$ cd ./backend`
 `$ npm install;cd ..`
 
