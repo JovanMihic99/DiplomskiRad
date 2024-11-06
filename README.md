@@ -58,8 +58,9 @@ npm install
 In the `backend` directory, create a `.env` file to store your environment variables. The `.env` file should contain the following configuration:
 
 ```env
-MONGO_URI=mongodb://localhost:27017/comicbookstore
-JWT_SECRET=your-jwt-secret-key
+PORT=3500
+MONGO_ATLAS_PW=[yourPassword]
+JWT_KEY=[yourJWTKey]
 ```
 
 You can customize the values such as `MONGO_URI` and `JWT_SECRET` based on your setup.
