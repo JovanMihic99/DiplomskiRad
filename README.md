@@ -2,6 +2,8 @@
 
 A full-stack web application for managing a comic book store, built using the MEVN stack (MongoDB, Express.js, Vue.js, Node.js). This application allows users to browse and manage a collection of comic books.
 
+![alt text](plp.jpeg "Product Listing Page")
+
 ## Table of Contents
 - [Features](#features)
 - [Technologies Used](#technologies-used)
